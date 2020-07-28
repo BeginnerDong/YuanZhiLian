@@ -101,7 +101,7 @@
 .homeBg{width: 100%;height: 400rpx;}
 .head .tit{line-height: 100rpx;}
 .content{margin-top: 145rpx;}
-.userImg{width: 170rpx;height: 170rpx;padding: 16rpx;border-radius: 50%;background-color: #fff;box-sizing: border-box;right: 50rpx;top: -85rpx;}
+.userImg{width: 170rpx;height: 170rpx;padding: 12rpx;border-radius: 50%;background-color: #fff;box-sizing: border-box;right: 50rpx;top: -85rpx;}
 .img{width: 640rpx;height: 580rpx;border-radius: 20rpx;flex-shrink: 0;margin-right: 30rpx;}
 .btnAuto{width: 520rpx;margin: 0;}
 </style>

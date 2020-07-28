@@ -75,6 +75,6 @@
 
 <style scoped>
 .head{background-image: linear-gradient(to bottom,#FFC2C5,#F9DFE1);}
-.tag{line-height: 40rpx;border-radius: 20rpx;}
+.tag{line-height: 40rpx;border-radius: 20rpx;min-width: auto;}
 .myList{margin-top: -20rpx;}
 </style>

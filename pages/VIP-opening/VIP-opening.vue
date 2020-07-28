@@ -37,15 +37,15 @@
 				
 				<view class="bB-e1">
 					<view class="pt-5">姓名</view>
-					<input type="text" value="" placeholder="请填写姓名" />
+					<input type="text" value="" placeholder="请填写姓名" placeholder-style="color:#dedede" />
 				</view>
 				<view class="bB-e1">
 					<view class="pt-5">手机号</view>
-					<input type="text" value="" placeholder="请填写手机号" />
+					<input type="text" value="" placeholder="请填写手机号" placeholder-style="color:#dedede" />
 				</view>
 				<view class="p-r bB-e1">
 					<view class="pt-5">验证码</view>
-					<input type="text" value="" placeholder="请填写验证码" />
+					<input type="text" value="" placeholder="请填写验证码" placeholder-style="color:#dedede" />
 					<view class="colorR p-a mb-3 right-0 bottom-0 font-30">获取验证码</view>
 				</view>
 				<view class="btnAuto">完成</view>
