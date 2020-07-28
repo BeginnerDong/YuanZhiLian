@@ -1,0 +1,127 @@
+/* #ifndef APP-NVUE */
+/* 设置全局样式 */
+/* (1) 页面高度100%,默认字体28upx,默认行高1.4,背景颜色 */
+page{
+	/* height: 100%; */
+	font-size: 28rpx;
+	line-height: 1.4;
+	color: #222;
+	/* background: #f5f5f5; */
+}
+
+button{border: 0;padding: 0;margin: 0;}
+button:after{border: 0;}
+
+/* (2) 图片默认100%宽度 */
+image{  width: 100%;height: 100%;box-sizing: border-box; display: block;}
+::-webkit-scrollbar{
+	display: none;
+}
+uni-button:after{border: 0;}
+
+
+.w-70{width: 70%;}
+.w-90{width: 90%;}
+
+.f5-2{height: 20rpx;background-color: #f5f5f5;}
+
+/* 无数据 */
+.nodata{width: 360rpx;height: 360rpx;margin:100rpx auto;}
+.nodata image{width: 100%;height: 100%;}
+
+/* 右侧固定按钮 */
+
+
+/* 购物车按钮显示数量 */
+
+
+/* #endif */
+/* 主色调 */
+/* 主背景颜色（橙色）*/
+.Mgb{background-color: #FF515B;}
+.bg-f5{background-color: #f5f5f5;}
+.bg-black{background: #000}
+/* 主点击背景颜色（淡橙色）*/
+
+/* 主字体颜色（橙色）*/
+.colorM{color: #FF515B;}
+.colorR{color: #ED1717;}
+.colorS{color: #738A9B;}
+
+.borderM{border: 1px solid #FF515B;}
+
+
+.f5Bj-H10{height: 10rpx; background: #f5f5f5;}
+.f5Bj-H20{ height: 20rpx; background: #f5f5f5;}
+.f5bj{background: #f5f5f5;}
+.whiteBj{background: #fff;}
+
+.price,.price1{ color: #ED1717;}
+.price::before{content: "￥";}
+.price1::before{content: "￥";font-size: 26rpx;}
+.priceY{ color: #ED1717;}
+.priceY::after{content: "/月";}
+.priceV{ color: #ED1717;}
+.priceV::before{content: "会员:";font-size: 22rpx;}
+.priceIcon{width: 28rpx;height: 28rpx;margin-right: 8rpx;}
+.priceF{ color: #ED1717;}
+.priceF::before{content: "积分:";font-size: 24rpx;}
+.priceM::after{content: "元/㎡";}
+.yuanJia{ color: #999; font-size: 24rpx; text-decoration: line-through; }
+.yuanJia::before{content: "￥";}
+
+/* 阴影 */
+.shadowM{box-shadow: 0 0 6rpx 0 rgba(0,0,0,0.15);}
+
+/* 返回按钮 */
+.backBox{position: absolute;top: 0;left: 0;z-index: 100;height: 100rpx;}
+.back{width: 84rpx;height: 88rpx;}
+
+/* 按钮 */
+.btnAuto{line-height: 80rpx;border-radius: 40rpx;background-image: linear-gradient(to right,#FF515B,#FF7C5E);color: #fff;margin: 0 auto;text-align: center;line-height: 80rpx;box-shadow: 0 4rpx 8rpx 0 rgba(255,81,91,0.4);}
+
+.btn-m160{background-color: #f5f5f5;text-align: center;color: #999;font-size: 30rpx;line-height: 66rpx;min-width: 160rpx;border-radius: 33rpx;display: inline-block;margin-right: 50rpx;padding: 0 25rpx;}
+.Mbtn{background-color: #FF515B;color: #fff;}
+
+.criBtn{background-color: #FF515B;line-height: 66rpx;width: 300rpx;text-align: center;color: #fff;margin: 20rpx auto;border-radius: 33rpx;}
+.carBtn{background-image: linear-gradient(to right,#FF515B,#FF7C5E);color: #fff;font-size: 30rpx;font-weight: 500;line-height: 100rpx;width: 260rpx;text-align: center;}
+
+.grayBtn{background-color: #dcdcdc;color: #666;line-height: 80rpx;border-radius: 40rpx;text-align: center;font-size: 30rpx;width: 260rpx;}
+.linearBtn{background-image: linear-gradient(to right,#FF515B,#FF7C5E);color: #fff;}
+
+/* 列表导航 */
+
+
+/* 底部 */
+.footer{height: 100rpx;width:100%;border-top: 1px solid #e1e1e1;position: fixed;bottom: 0;display: flex;justify-content: space-between;background-color: #fff;padding-bottom: 10rpx;box-sizing: content-box;z-index: 99;}
+.footer .item{width: 25%;display: flex;flex-direction: column;align-items: center;font-size: 22rpx;justify-content: center;color: #999;}
+.footer .on{color: #FF515B;}
+.footer .item image{margin-bottom: 10rpx;width: 44rpx;height: 37rpx;margin-top: 10rpx;}
+.footer .item:nth-child(2) image{width: 42rpx;height: 44rpx;}
+.footer .item:nth-child(3) image{width: 44rpx;height: 40rpx;}
+.footer .item:nth-child(4) image{width: 44rpx;height: 44rpx;}
+
+/* 搜索框 */
+input{font-size: 24rpx;flex: 1;padding-left: 20rpx;}
+
+
+
+
+
+
+/* 商店 */
+.yxImg{width: 220rpx;height: 160rpx;}
+.yxTxt{height: 160rpx;}
+
+
+/* 图标 */
+.sj-icon{width: 17rpx;height: 9rpx;margin-left: 10rpx;}
+.R-icon{width: 14rpx;height: 26rpx;}
+
+/* 标签 */
+.sign{background-color: #f5f5f5;line-height: 32rpx;padding: 0 15rpx;border-radius: 16rpx;font-size: 24rpx;display: inline-block;text-align: center;}
+
+.tag{background-color: #f5f5f5;line-height: 60rpx;padding: 0 15rpx;border-radius: 30rpx;font-size: 24rpx;display: inline-block;min-width: 160rpx;text-align: center;margin-right: 30rpx;margin-bottom: 20rpx;}
+.tag1{background-color: #FFE4E6;color: #FF515B;}
+.tag2{background-color: #FFEADA;color: #FF8E2A;}
+.tag3{background-color: #D1FBE8;color: #1BCB97;}
