@@ -123,6 +123,34 @@ export default {
 		};
 		http.HTTP(allParams);
 	},
+	
+	
+	
+	informationGet(param, callback) {
+		var allParams = {
+			url: 'Common/Information/get',
+			type: 'post',
+			noToken: true,
+			data: param,
+			sCallback: function(data) {
+				callback && callback(data);
+			}
+		};
+		http.HTTP(allParams);
+	},
+	
+	informationUpdate(param, callback) {
+		var allParams = {
+			url: 'Common/Information/update',
+			type: 'post',
+			noToken: true,
+			data: param,
+			sCallback: function(data) {
+				callback && callback(data);
+			}
+		};
+		http.HTTP(allParams);
+	},
 
 	SkuDateGet(param, callback) {
 		var allParams = {
@@ -294,6 +322,30 @@ export default {
 	qrCodeUpdate(param, callback) {
 		var allParams = {
 			url: 'Common/Qrcode/update',
+			type: 'post',
+			data: param,
+			sCallback: function(data) {
+				callback && callback(data);
+			}
+		};
+		http.HTTP(allParams);
+	},
+	
+	logAdd(param, callback) {
+		var allParams = {
+			url: 'Common/Log/add',
+			type: 'post',
+			data: param,
+			sCallback: function(data) {
+				callback && callback(data);
+			}
+		};
+		http.HTTP(allParams);
+	},
+	
+	logUpdate(param, callback) {
+		var allParams = {
+			url: 'Common/Log/update',
 			type: 'post',
 			data: param,
 			sCallback: function(data) {

@@ -2,9 +2,10 @@
 	<view>
 		
 		<view class="flex p-3 pb-5 head">
-			<image src="../../static/images/vip-img2.png" class="wh120"></image>
+			<view class="photo" style="overflow: hidden;border-radius: 50%;height: 120rpx;width: 120rpx;"><open-data type="userAvatarUrl"></open-data></view>
+			<!-- <image src="../../static/images/vip-img2.png" class="wh120"></image> -->
 			<view class="pl-2">
-				<view class="font-w pb-2">夏天的风</view>
+				<view class="font-w pb-2"><open-data type="userNickName"></open-data></view>
 				<view class="tag linearBtn">普通会员</view>
 			</view>
 		</view>
@@ -25,11 +26,11 @@
 				<view class="flex-1 px-2">设置</view>
 				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
 			</view>
-			<view class="flex1 py-4">
+			<button class="flex1 py-4" open-type="contact">
 				<image src="../../static/images/my-icon.png" class="wh34"></image>
 				<view class="flex-1 px-2">客服消息</view>
 				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-			</view>
+			</button>
 		</view>
 		
 		
@@ -74,6 +75,8 @@
 </script>
 
 <style scoped>
+	button{border: 0;margin: 0;background: none;line-height: 1.5;font-size: 15px;text-align: initial;}
+	button:after{border: 0;}
 .head{background-image: linear-gradient(to bottom,#FFC2C5,#F9DFE1);}
 .tag{line-height: 40rpx;border-radius: 20rpx;min-width: auto;}
 .myList{margin-top: -20rpx;}

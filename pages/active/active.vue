@@ -1,13 +1,17 @@
 <template>
 	<view class="px-3 pt-3 font-26 color9">
 		
-		<view class="mb-3 bg-white radius10 p-3 flex1" @click="Router.navigateTo({route:{path:'/pages/active-detail/active-detail'}})">
-			<image src="../../static/images/activity-img.png" class="activeImg"></image>
+		<view class="mb-3 bg-white radius10 p-3 flex1" 
+			v-for="(item,index) in mainData" :key="index"
+			:data-id = "item.id"
+			@click="Router.navigateTo({route:{path:'/pages/active-detail/active-detail?id='+$event.currentTarget.dataset.id}})"
+		>
+			<image :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" class="activeImg"></image>
 			<view class="activeTxt flex5">
-				<view class="font-32 color2 mb-5 avoidOverflow2">西安市第四届全明星运动会</view>
+				<view class="font-32 color2 mb-5 avoidOverflow2">{{item.title?item.title:''}}</view>
 				<view class="line-h t-indent20">
-					<view class="mt-2 p-r actTime">2020年7月23日 14点</view>
-					<view class="mt-3 p-r actDZ">西安市雁塔区高新大都荟</view>
+					<view class="mt-2 p-r actTime">{{item.small_title?item.small_title:''}}</view>
+					<view class="mt-3 p-r actDZ">{{item.description?item.description:''}}</view>
 				</view>
 			</view>
 		</view>
@@ -40,12 +44,69 @@
 
 <script>
 	export default {
+		
 		data() {
 			return {
-				Router:this.$Router
+				Router:this.$Router,
+				mainData: [],
 			}
 		},
+		
+		onLoad() {
+			const self = this;
+			self.paginate = self.$Utils.cloneForm(self.$AssetsConfig.paginate);
+			self.$Utils.loadAll(['getMainData'], self);
+		},
+		
+		onReachBottom() {
+			console.log('onReachBottom')
+			const self = this;
+			if (!self.isLoadAll && uni.getStorageSync('loadAllArray')) {
+				self.paginate.currentPage++;
+				self.getMainData()
+			};
+		},
+		
 		methods: {
+			
+			getMainData(isNew) {
+				const self = this;
+				if (isNew) {
+					self.mainData = [];
+					self.paginate = {
+						count: 0,
+						currentPage: 1,
+						is_page: true,
+						pagesize: 10
+					}
+				};
+				const postData = {};
+				postData.paginate = self.$Utils.cloneForm(self.paginate);
+				postData.searchItem = {
+					thirdapp_id: 2,
+				}
+				postData.getBefore = {
+					article: {
+						tableName: 'Label',
+						middleKey: 'menu_id',
+						key: 'id',
+						searchItem: {
+							title: ['in', ['活动']],
+						},
+						condition: 'in'
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.mainData.push.apply(self.mainData, res.info.data)
+					};
+					self.$Utils.finishFunc('getMainData');
+				};
+				self.$apis.articleGet(postData, callback);
+			},
 			
 		}
 	}

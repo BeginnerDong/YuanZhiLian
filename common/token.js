@@ -19,7 +19,7 @@ class Token {
     }
 
 	getProjectToken(callback,postData) { 
-		
+		//wx.showLoading();
 		var pass = true;
 		if(postData&&postData.refreshToken){
 			uni.removeStorageSync('user_token');
@@ -357,6 +357,7 @@ class Token {
                     data:postData,
                     success:function(res){
                         console.log(res)
+						wx.hideLoading();
                         if(res.data&&res.data.solely_code==100000){
                             uni.setStorageSync(params.info_name,res.data.info);
                             uni.setStorageSync(params.token_name, res.data.token);
