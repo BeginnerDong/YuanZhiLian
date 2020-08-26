@@ -36,16 +36,18 @@
 		</view>
 		
 		<!-- 信息展示 -->
-		<view class="px-3 line-h" v-for="(item,index) in mainData" :key="index" 
-		@click="toDetail(index)">
-			<view class="p-r radius30 overflow-h shadowM">
-				<image :src="item.bannerImg&&item.bannerImg[0]?item.bannerImg[0].url:''" class="homeImg"></image>
-				<view class="colorf p-aX avoidOverflow imgTxt">{{item.introduce?item.introduce:''}}</view>
-			</view>
-			<view class="flex pt-2 pb-5">
-				<image :src="item.gender==1?'../../static/images/home-icon5.png':'../../static/images/home-icon4.png'" class="wh32"></image>
-				<view class="font-32 font-w pl-2 pr-3">{{item.nickname?item.nickname:''}}</view>
-				<view class="color6">{{item.province?item.province:''}}·{{item.city?item.city:''}} {{item.age}}岁</view>
+		<view class="px-3 flex1 flex-wrap">
+			<view class="line-h" v-for="(item,index) in mainData" :key="index"
+			@click="toDetail(index)">
+				<view class="p-r radius30 overflow-h shadowM infoImg">
+					<image :src="item.bannerImg&&item.bannerImg[0]?item.bannerImg[0].url:''"></image>
+					<view class="colorf p-aX avoidOverflow imgTxt">{{item.introduce?item.introduce:''}}</view>
+				</view>
+				<view class="flex1 pt-2 pb-5 w335">
+					<image :src="item.gender==1?'../../static/images/home-icon5.png':'../../static/images/home-icon4.png'" class="wh32"></image>
+					<view class="font-32 font-w pl-2 pr-3">{{item.nickname?item.nickname:''}}</view>
+					<view class="color6 avoidOverflow flex-1">{{item.province?item.province:''}}·{{item.city?item.city:''}} {{item.age}}岁</view>
+				</view>
 			</view>
 		</view>
 		
@@ -423,8 +425,10 @@
 .icon{width: 68rpx;height: 68rpx;margin-bottom: 20rpx;}
 .icon1{width: 52rpx;height: 62rpx;margin-bottom: 20rpx;}
 .icon2{width: 64rpx;height: 56rpx;margin-bottom: 20rpx;}
-.homeImg{width: 690rpx;height: 480rpx;}
-.imgTxt{bottom: 0;background-image: linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,0.3));padding: 20rpx 30rpx;width: 690rpx;box-sizing: border-box;}
+.infoImg{width: 335rpx;height: 280rpx;}
+.infoImg image{width: 100%;height: 100%;}
+.imgTxt{bottom: 0;background-image: linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,0.3));padding: 20rpx 30rpx;width: 335rpx;box-sizing: border-box;}
+.w335{width: 335rpx;}
 
 .choose{height: 1100rpx;box-sizing: border-box;}
 
