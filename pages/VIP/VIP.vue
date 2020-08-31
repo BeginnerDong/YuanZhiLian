@@ -123,7 +123,7 @@
 					if (res.info.data.length > 0) {
 						self.userData = res.info.data[0];
 						self.userInfoData = res.info.data[0].info;
-						if(self.userInfoData.deadline>nowTime){
+						if(self.userInfoData.behavior>1){
 							self.isMember = true;
 						}else{
 							self.isMember = false;

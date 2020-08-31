@@ -43,8 +43,11 @@
 			</view>
 			
 			<view class="font-32 font-w py-4">兴趣爱好</view>
-			<view class="flex flex-wrap">
+			<!-- <view class="flex flex-wrap">
 				<view class="tag" v-for="(item,index) in mainData.hobbyText" :key="index">{{item.title}}</view>
+			</view> -->
+			<view class="line-h-md mb-2">
+				{{mainData.hobby?mainData.hobby:'-'}}
 			</view>
 			
 			<view class="font-32 font-w py-4">个人介绍</view>
@@ -53,10 +56,12 @@
 			</view>
 			
 			<view class="font-32 font-w py-4">择偶标准</view>
-			<view class="flex flex-wrap">
+			<!-- <view class="flex flex-wrap">
 				<view class="tag" v-for="(item,index) in mainData.criteriaText" :key="index">{{item.title}}</view>
+			</view> -->
+			<view class="line-h-md mb-2">
+				{{mainData.criteria?mainData.criteria:'-'}}
 			</view>
-			
 			<view class="font-32 py-4 flex1">
 				<view class="font-w">个人相册</view>
 				<view class="color9 font-28">{{mainData.bannerImg&&mainData.bannerImg.length?mainData.bannerImg.length:0}}张</view>
@@ -73,7 +78,8 @@
 				<image src="../../static/images/details-icon2.png" class="wh40 mb-1"></image>
 				<view>联系客服</view>
 			</button>
-			<view class="btnAuto" @click="Router.navigateTo({route:{path:'/pages/VIP-opening/VIP-opening'}})">购买会员</view>
+			<view class="btnAuto" v-if="userData.info&&userData.info.behavior==2" @click="showPhone()">红娘服务</view>
+			<view class="btnAuto" v-if="userData.info&&userData.info.behavior==1" @click="Router.navigateTo({route:{path:'/pages/VIP-opening/VIP-opening'}})">查看联系</view>
 		</view>
 		
 		
@@ -89,18 +95,52 @@
 				statusBar: app.globalData.statusBar,
 				mainData:{},
 				Utils:this.$Utils,
+				userData:{}
 			}
 		},
 		
 		onLoad(options) {
 			const self = this;
 			self.id = options.id;
-			self.$Utils.loadAll(['getMainData'], self);
+			self.$Utils.loadAll(['getMainData','getUserData'], self);
 		},
 		
 		methods: {
 			
+			showPhone(){
+				const self = this;
+				uni.showModal({
+					title:'红娘服务',
+					content:'联系方式1：029-89330200 \n 联系方式2：13002933832',
+					confirmText:'拨打2',
+					cancelText:'拨打1',
+					success(res) {
+						if(res.confirm){
+							uni.makePhoneCall({
+								phoneNumber:'13002933832'
+							})
+						}else{
+							uni.makePhoneCall({
+								phoneNumber:'89330200'
+							})
+						}
+					}
+				})
+			},
 			
+			getUserData() {
+				const self = this;
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.userData = res.info.data[0];
+					};
+					uni.setStorageSync('canClick', true);
+					self.$Utils.finishFunc('getUserData');
+				};
+				self.$apis.userGet(postData, callback);
+			},
 			
 			collect() {
 				const self = this;
@@ -201,7 +241,7 @@
 				const callback = (res) => {
 					if (res.info.data.length > 0) {
 						self.mainData = res.info.data[0];
-						if(uni.getStorageSync('user_info').info.behavior==1){
+						if(self.userData.info.behavior!=2){
 							self.mainData.wechat = self.mainData.wechat.substr(0,2)+'***'+self.mainData.wechat.substr(5,self.mainData.wechat.length)
 							self.mainData.phone = self.mainData.phone.substr(0,2)+'****'+self.mainData.phone.substr(6,self.mainData.phone.length)
 						}

@@ -8,17 +8,17 @@
 		<view class="p-r m-a bB-e1">
 			<input type="text" v-model="submitData.nickname" placeholder="请填写昵称" placeholder-style="font-size:26rpx;color:#999" />
 		</view>
-		<view class="mt-3 pt-3">微信号</view>
+		<view class="mt-3 pt-3"><text style="color: red;">*</text>微信号</view>
 		<view class="p-r m-a bB-e1">
 			<input type="text" v-model="submitData.wechat" placeholder="请填写微信号" placeholder-style="font-size:26rpx;color:#999" />
 		</view>
-		<view class="mt-3 pt-3">手机号</view>
+		<view class="mt-3 pt-3"><text style="color: red;">*</text>手机号</view>
 		<view class="p-r m-a bB-e1">
 			<input type="number" v-model="submitData.phone" placeholder="请填写手机号" placeholder-style="font-size:26rpx;color:#999" />
 		</view>
-		<view class="mt-3 pt-3">身份证号</view>
+		<view class="mt-3 pt-3"><text style="color: red;">*</text>身份证号</view>
 		<view class="p-r m-a bB-e1">
-			<input type="number" v-model="submitData.idcard" placeholder="请填写手机号" placeholder-style="font-size:26rpx;color:#999" />
+			<input type="idcard" v-model="submitData.id_card" placeholder="请填写身份证号" placeholder-style="font-size:26rpx;color:#999" />
 		</view>
 		<view class="mt-3 pt-3">性别</view>
 		<view class="p-r m-a bB-e1 flex1">
@@ -76,7 +76,7 @@
 			</picker>
 			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
 		</view>
-		<view class="mt-3 pt-3">婚姻状况</view>
+		<view class="mt-3 pt-3"><text style="color: red;">*</text>婚姻状况</view>
 		<view class="p-r m-a bB-e1 flex1">
 			<picker  mode="selector" :range="marriageData"  @change="Change" data-key="marriage">
 				<view class="font-26 color9 py-3 select" :style="marriageData[marriageIndex]?'font-size:32rpx;color:#222':''">{{marriageData[marriageIndex]?marriageData[marriageIndex]:'请选择婚姻状况'}}</view>
@@ -104,10 +104,15 @@
 			</picker>
 			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
 		</view>
-		<view class="mt-3 pt-3">兴趣爱好</view>
+		<!-- <view class="mt-3 pt-3">兴趣爱好</view>
 		<view class="p-r m-a bB-e1 flex1" @click="isShow(1)">
 			<input type="text" disabled="true" v-model="choosehobbyTitle" placeholder="请填写兴趣爱好" placeholder-style="font-size:26rpx;color:#999" />
 			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+		</view> -->
+		<view class="mt-3 pt-3">兴趣爱好</view>
+		<view class="p-r m-a bB-e1">
+			<!-- <input type="text" value="" placeholder="请输入个人介绍" /> -->
+			<textarea v-model="submitData.hobby" placeholder="请输入兴趣爱好" placeholder-style="font-size:26rpx;color:#999" />
 		</view>
 		<view class="mt-3 pt-3">个人介绍</view>
 		<view class="p-r m-a bB-e1">
@@ -115,53 +120,67 @@
 			<textarea v-model="submitData.introduce" placeholder="请输入个人介绍" placeholder-style="font-size:26rpx;color:#999" />
 		</view>
 		<view class="mt-3 pt-3">择偶标准</view>
-		<view class="p-r m-a bB-e1 flex1" @click="isShow(2)">
+		<view class="p-r m-a bB-e1">
+			<!-- <input type="text" value="" placeholder="请输入个人介绍" /> -->
+			<textarea v-model="submitData.criteria" placeholder="请输入择偶标准" placeholder-style="font-size:26rpx;color:#999" />
+		</view>
+		<!-- <view class="p-r m-a bB-e1 flex1" @click="isShow(2)">
 			<input type="text" disabled="true" v-model="choosecriteriaTitle" placeholder="请选择择偶标准" placeholder-style="font-size:26rpx;color:#999" />
 			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
+		</view> -->
 		<view class="mt-3 pt-3">相册(可传多张)</view>
 		<view class="p-r m-a bB-e1 flex flex-wrap pt-4 pb-2 photo">
 			<image :src="item.url" v-for="(item,index) of submitData.bannerImg" :key="index" class="wh210 mb-1"></image>
 			<image src="../../static/images/thepersonaldata-icon1.png" v-if="submitData.bannerImg.length<9" @click="upLoadImg('bannerImg')" class="wh210 mb-1"></image>
 		</view>
-		
+		<view class="mt-3 pt-3" v-if="!isEdit"><text style="color: red;">*</text>验证码</view>
+		<view class="p-r m-a bB-e1"  v-if="!isEdit">
+			<input type="number" v-model="submitData.smsCode" placeholder="请填写验证码" placeholder-style="font-size:26rpx;color:#999" />
+			<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" @click="sendCode()" v-if="!hasSend">{{text}}</view>
+			<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" v-if="hasSend">{{text}}</view>
+		</view>
+		<view class="mt-3 pt-3">邀请码</view>
+		<view class="p-r m-a bB-e1">
+			<view v-if="!hasCode">{{submitData.code}}</view>
+			<input type="number"  v-if="hasCode" v-model="submitData.code" placeholder="请填写邀请码(选填)" placeholder-style="font-size:26rpx;color:#999" />
+		</view>
 		<view class="btnAuto" @click="Utils.stopMultiClick(submit)">确定</view>
 		
 		
 		<!-- 兴趣爱好 -->
 		<cover-view class="bg-mask" v-show="is_show==1">
 			<cover-view class="box radius20-T p-aX bottom-0 bg-white">
-				<view class="flex1 p-3">
-					<view @click="isShow(0)">取消</view>
-					<view class="colorM" @click="isShow(0,'hobby')">确定</view>
-				</view>
-				<view class="p-3 font-32 font-w">兴趣爱好</view>
-				<view class="flex flex-wrap px-3">
-					<view class="tag" 
+				<cover-view class="flex1 p-3">
+					<cover-view @click="isShow(0)">取消</cover-view>
+					<cover-view class="colorM" @click="isShow(0,'hobby')">确定</cover-view>
+				</cover-view>
+				<cover-view class="p-3 font-32 font-w">兴趣爱好</cover-view>
+				<cover-view class="flex flex-wrap px-3">
+					<cover-view class="tag" 
 						v-for="(item,index) in hobbyData" 
 						:key="index"
 						:class="Utils.inArray(item.id,choosehobbyData)!=-1?'on':''"
 						@click="chooseItem(index,'hobby')"
-					>{{item.title}}</view>
-				</view>
+					>{{item.title}}</cover-view>
+				</cover-view>
 			</cover-view>
 		</cover-view>
 		<!-- 择偶标准 -->
 		<cover-view class="bg-mask" v-show="is_show==2">
 			<cover-view class="box radius20-T p-aX bottom-0 bg-white">
-				<view class="flex1 p-3">
-					<view @click="isShow(0)">取消</view>
-					<view class="colorM" @click="isShow(0,'criteria')">确定</view>
-				</view>
-				<view class="p-3 font-32 font-w">择偶标准</view>
-				<view class="flex flex-wrap px-3">
-					<view class="tag" 
+				<cover-view class="flex1 p-3">
+					<cover-view @click="isShow(0)">取消</cover-view>
+					<cover-view class="colorM" @click="isShow(0,'criteria')">确定</cover-view>
+				</cover-view>
+				<cover-view class="p-3 font-32 font-w">择偶标准</cover-view>
+				<cover-view class="flex flex-wrap px-3">
+					<cover-view class="tag" 
 						v-for="(item,index) in criteriaData" 
 						:key="index"
 						:class="Utils.inArray(item.id,choosecriteriaData)!=-1?'on':''"
 						@click="chooseItem(index,'criteria')"
-					>{{item.title}}</view>
-				</view>
+					>{{item.title}}</cover-view>
+				</cover-view>
 			</cover-view>
 		</cover-view>
 		
@@ -197,10 +216,13 @@
 					 marriage:'',   // 婚姻状况 
 					 occupation:'',   // 职业 
 					 salary:'',   // 月收入 
-					 hobby:[],   //爱好 
-					 criteria:[],   // 择偶标准 
+					 hobby:'',   //爱好 
+					 criteria:'',   // 择偶标准 
 					 is_show:1,
-					 idcard:''
+					 id_card:'',
+					 
+					 smsCode:'',
+					 code:''
 				},
 				is_show:0,
 				
@@ -230,7 +252,11 @@
 				criteriaData:[],
 				choosecriteriaData:[],
 				choosecriteriaTitle:'',
-				
+				currentTime:61,
+				text:'获取验证码',
+				hasSend:false,
+				isEdit:false,
+				hasCode:false
 			}
 		},
 		
@@ -248,7 +274,65 @@
 			} */
 		},
 		
+		onShow() {
+			const self = this;
+			self.getUserData()
+		},
+		
 		methods: {
+			
+			getUserData() {
+				const self = this;
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				postData.noLoading = true;
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.userData = res.info.data[0];
+					};
+				};
+				self.$apis.userGet(postData, callback);
+			},
+			
+			sendCode(){
+				var self = this;
+				if(self.hasSend){
+					return;
+				};
+				var phone = self.submitData.phone;
+				
+				if (phone.trim().length != 11 || !/^1[3|4|5|6|7|8|9]\d{9}$/.test(phone)) {
+					self.$Utils.showToast('请输入正确的手机号', 'none', 1000)
+					return;
+				}
+				var postData = {
+					data:{
+						phone:self.submitData.phone,
+					}
+				};
+				var callback = function(res){
+					if(res.solely_code==100000){
+						self.$Utils.showToast('发送成功', 'none', 1000)
+						self.hasSend = true;
+						var interval = setInterval(function() {
+							self.currentTime--; //每执行一次让倒计时秒数减一
+						
+							self.text=self.currentTime + 's';//按钮文字变成倒计时对应秒数
+							
+							//如果当秒数小于等于0时 停止计时器 且按钮文字变成重新发送 且按钮变成可用状态 倒计时的秒数也要恢复成默认秒数 即让获取验证码的按钮恢复到初始化状态只改变按钮文字
+							if (self.currentTime <= 0) {
+								clearInterval(interval)
+								self.hasSend = false;
+								self.text='重新发送';
+								self.currentTime= 61;
+							}
+						}, 1000);
+					}else{
+						self.$Utils.showToast('发送失败', 'none', 1000)
+					};
+				};
+				self.$apis.codeGet(postData, callback);
+			},
 			
 			getMainData() {
 				const self = this;
@@ -260,10 +344,16 @@
 				const callback = (res) => {
 					if (res.info.data.length > 0) {
 						self.mainData = res.info.data[0];
+						if(self.mainData.phone!=''){
+							self.isEdit = true
+						};
+						if(self.mainData.code!=''){
+							self.hasCode = true
+						};
 						self.submitData.nickname = self.mainData.nickname;
 						self.submitData.gender = self.mainData.gender;
 						self.submitData.phone = self.mainData.phone;
-						//self.submitData.mainImg = self.mainData.mainImg;
+						self.submitData.code = self.mainData.code;
 						self.submitData.bannerImg = self.mainData.bannerImg;
 						self.submitData.wechat = self.mainData.wechat;
 						self.submitData.age = self.mainData.age;
@@ -272,14 +362,14 @@
 						self.submitData.live = self.mainData.live;
 						self.submitData.province = self.mainData.province;
 						self.submitData.city = self.mainData.city;
-						
+						self.submitData.id_card = self.mainData.id_card;
 						self.submitData.introduce = self.mainData.introduce;
 						self.submitData.criteria = self.mainData.criteria;
 						self.submitData.hobby = self.mainData.hobby;
-						self.choosecriteriaData = self.mainData.criteria;
-						self.choosehobbyData = self.mainData.hobby;
+						/* self.choosecriteriaData = self.mainData.criteria; */
+						//self.choosehobbyData = self.mainData.hobby;
 						self.genderIndex =parseInt(self.submitData.gender) - 1
-						var hobbyTitle = []
+						/* var hobbyTitle = []
 						for (var i = 0; i < self.hobbyData.length; i++) {
 							for (var j = 0; j < self.submitData.hobby.length; j++) {
 								if(self.hobbyData[i].id==self.submitData.hobby[j]){
@@ -287,8 +377,8 @@
 								}
 							}
 						};
-						self.choosehobbyTitle = hobbyTitle.join(',')
-						var criteriaTitle = []
+						self.choosehobbyTitle = hobbyTitle.join(',') */
+						/* var criteriaTitle = []
 						for (var i = 0; i < self.criteriaData.length; i++) {
 							for (var j = 0; j < self.submitData.criteria.length; j++) {
 								if(self.criteriaData[i].id==self.submitData.criteria[j]){
@@ -296,7 +386,7 @@
 								}
 							}
 						};
-						self.choosecriteriaTitle = criteriaTitle.join(',')
+						self.choosecriteriaTitle = criteriaTitle.join(',') */
 						for (var i = 0; i < self.heightData.length; i++) {
 							if(self.heightData[i]==self.mainData.height){
 								self.heightIndex =i
@@ -391,25 +481,35 @@
 			submit() {
 				const self = this;
 				uni.setStorageSync('canClick', false);
-				if(self.submitData.phone = ''){
+				if(self.submitData.phone == ''){
 					uni.setStorageSync('canClick', true);
 					self.$Utils.showToast('请填写手机号', 'none')
 					return
 				};
-				if(self.submitData.wechat = ''){
+				if(self.submitData.wechat == ''){
 					uni.setStorageSync('canClick', true);
 					self.$Utils.showToast('请填写微信号', 'none')
 					return
 				};
-				if(self.submitData.idcard = ''){
+				if(self.submitData.id_card == ''){
 					uni.setStorageSync('canClick', true);
 					self.$Utils.showToast('请填写身份证号', 'none')
 					return
 				};
-				if(self.submitData.marriage = ''){
+				if(self.submitData.marriage == ''){
 					uni.setStorageSync('canClick', true);
 					self.$Utils.showToast('请选择婚姻状况', 'none')
 					return
+				};
+				if(self.submitData.bannerImg.length == 0){
+					uni.setStorageSync('canClick', true);
+					self.$Utils.showToast('请至少上传一张图片用于展示', 'none')
+					return
+				};
+				if (self.submitData.phone.trim().length != 11 || !/^1[3|4|5|6|7|8|9]\d{9}$/.test(self.submitData.phone)) {
+					uni.setStorageSync('canClick', true);
+					self.$Utils.showToast('请输入正确的手机号', 'none', 1000)
+					return;
 				};
 				self.informationUpdate();
 				/* const pass = self.$Utils.checkComplete(self.submitData);
@@ -428,9 +528,32 @@
 				const self = this;
 				const postData = {};
 				postData.tokenFuncName = 'getProjectToken';
-				postData.data = self.$Utils.cloneForm(self.submitData);
+				var newObject = self.$Utils.cloneForm(self.submitData);
+				delete newObject.smsCode;
+				postData.data = self.$Utils.cloneForm(newObject);
 				postData.searchItem = {
 					user_no:uni.getStorageSync('user_info').user_no
+				};
+				postData.saveAfter = [
+					{
+						tableName: 'UserInfo',
+						FuncName: 'update',
+						searchItem:{
+							user_no:uni.getStorageSync('user_info').user_no
+						},
+						data: {
+							phone:self.submitData.phone
+						},
+					},
+				];
+				if(self.userData.info.behavior==0){
+					postData.saveAfter[0].data.behavior = 1
+				};
+				if(!self.isEdit){
+					postData.smsAuth = {
+						phone:self.submitData.phone,						
+						code:self.submitData.smsCode,
+					};
 				};
 				const callback = (res) => {
 					if (res.solely_code==100000) {

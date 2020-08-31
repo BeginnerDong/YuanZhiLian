@@ -6,7 +6,9 @@
 			<!-- <image src="../../static/images/vip-img2.png" class="wh120"></image> -->
 			<view class="pl-2">
 				<view class="font-w pb-2"><open-data type="userNickName"></open-data></view>
-				<view class="tag linearBtn">普通会员</view>
+				<view class="tag linearBtn" v-if="userData.info.behavior==0">游客</view>
+				<view class="tag linearBtn" v-if="userData.info.behavior==1">普通会员</view>
+				<view class="tag linearBtn" v-if="userData.info.behavior==2">黄金会员</view>
 			</view>
 		</view>
 		
@@ -65,10 +67,31 @@
 	export default {
 		data() {
 			return {
-				Router:this.$Router
+				Router:this.$Router,
+				userData:{}
 			}
 		},
+		
+		onLoad() {
+			const self = this;
+			self.$Utils.loadAll(['getUserData'], self);
+		},
+		
 		methods: {
+			
+			getUserData() {
+				const self = this;
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.userData = res.info.data[0];
+					};
+					uni.setStorageSync('canClick', true);
+					self.$Utils.finishFunc('getUserData');
+				};
+				self.$apis.userGet(postData, callback);
+			},
 			
 		}
 	}

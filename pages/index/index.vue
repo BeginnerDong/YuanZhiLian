@@ -43,11 +43,12 @@
 					<image :src="item.bannerImg&&item.bannerImg[0]?item.bannerImg[0].url:''"></image>
 					<view class="colorf p-aX avoidOverflow imgTxt">{{item.introduce?item.introduce:''}}</view>
 				</view>
-				<view class="flex1 pt-2 pb-5 w335">
+				<view class="flex pt-2 pb-2 w335">
 					<image :src="item.gender==1?'../../static/images/home-icon5.png':'../../static/images/home-icon4.png'" class="wh32"></image>
 					<view class="font-32 font-w pl-2 pr-3">{{item.nickname?item.nickname:''}}</view>
-					<view class="color6 avoidOverflow flex-1">{{item.province?item.province:''}}·{{item.city?item.city:''}} {{item.age}}岁</view>
+					
 				</view>
+				<view class="color6 avoidOverflow pb-5">{{item.province?item.province:''}}·{{item.city?item.city:''}} {{item.age}}岁</view>
 			</view>
 		</view>
 		

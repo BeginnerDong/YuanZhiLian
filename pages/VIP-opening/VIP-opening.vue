@@ -336,7 +336,7 @@
 					self.cardCurr = i
 				}else{
 					if(i==0){
-						if(self.userData.info.behavior==1){
+						if(self.userData.info.behavior>0){
 							self.$Utils.showToast('您已经是普通会员', 'none', 1000);
 							return
 						}
@@ -352,7 +352,7 @@
 				const callback = (res) => {
 					if (res.info.data.length > 0) {
 						self.userData = res.info.data[0];
-						if(self.userData.info.behavior==1){
+						if(self.userData.info.behavior>0){
 							self.navCurr=1
 						}
 					};

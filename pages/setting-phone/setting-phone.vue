@@ -106,13 +106,27 @@
 				postData.data = {
 					phone:self.submitData.phone,
 					name:self.submitData.name,
-					behavior:1
 				};
 				postData.smsAuth = {
 					phone:self.submitData.phone,						
 					code:self.submitData.code,
 				};
+				if(self.userData.info.behavior==0){
+					postData.data.behavior = 1
+				};
 				postData.refreshToken = true;
+				postData.saveAfter = [
+					{
+						tableName: 'Information',
+						FuncName: 'update',
+						searchItem:{
+							user_no:uni.getStorageSync('user_info').user_no
+						},
+						data: {
+							phone:self.submitData.phone
+						},
+					},
+				];
 				const callback = (res) => {
 					if (res.solely_code==100000) {
 						self.navCurr = 1;
