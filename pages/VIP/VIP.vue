@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
 		
 		<view class="head p-r colorf">
 			<image src="../../static/images/vip-img.png" class="p-aXY VipBg top-0"></image>
@@ -28,8 +29,8 @@
 			</view>
 		</view>
 		
-		<view class="font-36 font-w px-3 pt-5">专享特权</view>
-		<view class="p-3 line-h flex1 flex-wrap">
+		<view class="font-36 font-w px-3 pt-5 p-r">专享特权</view>
+		<view class="p-3 line-h flex1 flex-wrap p-r">
 			<view class="vipTQ flex mb-3" v-for="(item,index) in labelData" :key="index">
 				<image :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" class="vipIcon"></image>
 				<view>

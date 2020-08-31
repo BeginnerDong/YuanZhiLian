@@ -1,7 +1,8 @@
 <template>
 	<view class="px-3 pt-3 font-26 color9">
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
 		
-		<view class="mb-3 bg-white radius10 p-3 flex1" 
+		<view class="mb-3 bg-white radius10 p-3 flex1 p-r" 
 			v-for="(item,index) in mainData" :key="index"
 			:data-id = "item.id"
 			@click="Router.navigateTo({route:{path:'/pages/active-detail/active-detail?id='+$event.currentTarget.dataset.id}})"
@@ -119,4 +120,6 @@ page{background-color: #f5f5f5;}
 .actTime::before,.actDZ::before{content: '';width: 10rpx;height: 10rpx;position: absolute;top: 50%;left: 0;margin-top: -5rpx;border-radius: 50%;}
 .actTime::before{background-color: #38BD70;}
 .actDZ::before{background-color: #FF515B;}
+
+.footer{left: 0;right: 0;}
 </style>

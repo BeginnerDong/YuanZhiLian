@@ -41,4 +41,6 @@
 	uni-swiper .uni-swiper-dot-active{width: 20rpx;} */
 	.ql-editor img{max-width: 100%;margin: 0 auto;}
 	.detailBanner .uni-swiper-dots{bottom: 30rpx;}
+	
+	.o6{opacity: 0.6;}
 </style>

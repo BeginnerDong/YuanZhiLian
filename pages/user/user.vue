@@ -1,7 +1,8 @@
 <template>
 	<view>
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
 		
-		<view class="flex p-3 pb-5 head">
+		<view class="flex p-3 pb-5 head p-r">
 			<view class="photo" style="overflow: hidden;border-radius: 50%;height: 120rpx;width: 120rpx;"><open-data type="userAvatarUrl"></open-data></view>
 			<!-- <image src="../../static/images/vip-img2.png" class="wh120"></image> -->
 			<view class="pl-2">
@@ -12,7 +13,7 @@
 			</view>
 		</view>
 		
-		<view class="myList bg-white radius20 font-30 px-3 py-2">
+		<view class="myList bg-white radius20-T font-30 px-3 py-2 p-r">
 			<view class="flex1 py-4" @click="Router.navigateTo({route:{path:'/pages/user-data/user-data'}})">
 				<image src="../../static/images/my-icon3.png" class="wh33"></image>
 				<view class="flex-1 px-2">个人资料</view>

@@ -1,7 +1,8 @@
 <template>
 	<view>
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
 		
-		<view class="head p-r colorf">
+		<view class="head p-r colorf z10">
 			<image src="../../static/images/home-img.png" class="p-aXY homeBg top-0"></image>
 			<view class="px-3 p-r" >
 				<view class="font-36 text-center tit" :style="{paddingTop:statusBar+'px'}">缘之恋</view>
@@ -20,7 +21,7 @@
 		</view>
 		
 		<!-- 金刚区 -->
-		<view class="flex2 line-h py-4">
+		<view class="flex2 line-h py-4 p-r">
 			<view class="font-26 flex4" @click="Router.navigateTo({route:{path:'/pages/aboutUS/aboutUS'}})">
 				<image src="../../static/images/home-icon2.png" class="icon"></image>
 				<view>关于我们</view>
@@ -36,7 +37,7 @@
 		</view>
 		
 		<!-- 信息展示 -->
-		<view class="px-3 flex1 flex-wrap">
+		<view class="px-3 flex1 flex-wrap p-r">
 			<view class="line-h" v-for="(item,index) in mainData" :key="index"
 			@click="toDetail(index)">
 				<view class="p-r radius30 overflow-h shadowM infoImg">

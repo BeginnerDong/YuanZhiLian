@@ -1,150 +1,153 @@
 <template>
 	<view class="px-5 py-4 infor">
+		<!-- <image src="../../static/images/bg.jpg" class="p-fXY o6"></image> -->
 		
-		<view class="font-50 font-w py-2">填写你的个人信息</view>
-		<view class="font-26 color6">让更多人的人认识你</view>
-		
-		<view class="mt-3 pt-3" contenteditable="true">昵称</view>
-		<view class="p-r m-a bB-e1">
-			<input type="text" v-model="submitData.nickname" placeholder="请填写昵称" placeholder-style="font-size:26rpx;color:#999" />
+		<view class="p-r">
+			<view class="font-50 font-w py-2">填写你的个人信息</view>
+			<view class="font-26 color6">让更多人的人认识你</view>
+			
+			<view class="mt-3 pt-3" contenteditable="true">昵称</view>
+			<view class="p-r m-a bB-e1">
+				<input type="text" v-model="submitData.nickname" placeholder="请填写昵称" placeholder-style="font-size:26rpx;color:#999" />
+			</view>
+			<view class="mt-3 pt-3"><text style="color: red;">*</text>微信号</view>
+			<view class="p-r m-a bB-e1">
+				<input type="text" v-model="submitData.wechat" placeholder="请填写微信号" placeholder-style="font-size:26rpx;color:#999" />
+			</view>
+			<view class="mt-3 pt-3"><text style="color: red;">*</text>手机号</view>
+			<view class="p-r m-a bB-e1">
+				<input type="number" v-model="submitData.phone" placeholder="请填写手机号" placeholder-style="font-size:26rpx;color:#999" />
+			</view>
+			<view class="mt-3 pt-3"><text style="color: red;">*</text>身份证号</view>
+			<view class="p-r m-a bB-e1">
+				<input type="idcard" v-model="submitData.id_card" placeholder="请填写身份证号" placeholder-style="font-size:26rpx;color:#999" />
+			</view>
+			<view class="mt-3 pt-3">性别</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="selector" :range="genderData"  @change="changeGender">
+					<view class="font-26 color9 py-3 select" :style="genderData[genderIndex]?'font-size:32rpx;color:#222':''">{{genderData[genderIndex]?genderData[genderIndex]:'请选择性别'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3">生日</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="date"  @change="birthdayChange">
+					<view class="font-26 color9 py-3 select" :style="submitData.birthday!=''?'font-size:32rpx;color:#222':''">{{submitData.birthday!=''?submitData.birthday:'请选择生日日期'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3">星座</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="selector" :range="constellationData"  @change="Change" data-key="constellation">
+					<view class="font-26 color9 py-3 select" :style="constellationData[constellationIndex]?'font-size:32rpx;color:#222':''">{{constellationData[constellationIndex]?constellationData[constellationIndex]:'请选择星座'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3">身高</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="selector" value="28" :range="heightData" @change="Change" data-key="height">
+					<view class="font-26 color9 py-3 select" :style="heightData[heightIndex]?'font-size:32rpx;color:#222':''">{{heightData[heightIndex]?heightData[heightIndex]:'请选择身高'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3">体重</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="selector" value="28" :range="weightData" @change="Change" data-key="weight">
+					<view class="font-26 color9 py-3 select" :style="weightData[weightIndex]?'font-size:32rpx;color:#222':''">{{weightData[weightIndex]?weightData[weightIndex]:'请选择体重'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3">学历</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="selector" :range="educationData"  @change="Change" data-key="education">
+					<view class="font-26 color9 py-3 select" :style="educationData[educationIndex]?'font-size:32rpx;color:#222':''">{{educationData[educationIndex]?educationData[educationIndex]:'请选择学历'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3">籍贯</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="region"  @change="hometownChange">
+					<view class="font-26 color9 py-3 select" :style="submitData.origin!=''?'font-size:32rpx;color:#222':''">{{submitData.origin!=''?submitData.origin:'请选择籍贯'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3">现居</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="region"  @change="addressChange">
+					<view class="font-26 color9 py-3 select" :style="submitData.province!=''?'font-size:32rpx;color:#222':''">{{submitData.province!=''?submitData.province+'-'+submitData.city:'请选择现居地'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3"><text style="color: red;">*</text>婚姻状况</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker  mode="selector" :range="marriageData"  @change="Change" data-key="marriage">
+					<view class="font-26 color9 py-3 select" :style="marriageData[marriageIndex]?'font-size:32rpx;color:#222':''">{{marriageData[marriageIndex]?marriageData[marriageIndex]:'请选择婚姻状况'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3">职业</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="selector" :range="occupationData"  @change="Change" data-key="occupation">
+					<view class="font-26 color9 py-3 select" :style="occupationData[occupationIndex]?'font-size:32rpx;color:#222':''">{{occupationData[occupationIndex]?occupationData[occupationIndex]:'请选择职业'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3">月收入</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="selector" :range="salaryData"  @change="Change" data-key="salary">
+					<view class="font-26 color9 py-3 select" :style="salaryData[salaryIndex]?'font-size:32rpx;color:#222':''">{{salaryData[salaryIndex]?salaryData[salaryIndex]:'请选择月收入'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<view class="mt-3 pt-3">房车情况</view>
+			<view class="p-r m-a bB-e1 flex1">
+				<picker mode="selector" :range="car_houseData"  @change="ChangecarHouse" range-key="title">
+					<view class="font-26 color9 py-3 select" :style="car_houseData[car_houseIndex]?'font-size:32rpx;color:#222':''">{{car_houseData[car_houseIndex]?car_houseData[car_houseIndex].title:'请选择房车情况'}}</view>
+				</picker>
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view>
+			<!-- <view class="mt-3 pt-3">兴趣爱好</view>
+			<view class="p-r m-a bB-e1 flex1" @click="isShow(1)">
+				<input type="text" disabled="true" v-model="choosehobbyTitle" placeholder="请填写兴趣爱好" placeholder-style="font-size:26rpx;color:#999" />
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view> -->
+			<view class="mt-3 pt-3">兴趣爱好</view>
+			<view class="p-r m-a bB-e1">
+				<!-- <input type="text" value="" placeholder="请输入个人介绍" /> -->
+				<textarea v-model="submitData.hobby" placeholder="请输入兴趣爱好" placeholder-style="font-size:26rpx;color:#999" />
+			</view>
+			<view class="mt-3 pt-3">个人介绍</view>
+			<view class="p-r m-a bB-e1">
+				<!-- <input type="text" value="" placeholder="请输入个人介绍" /> -->
+				<textarea v-model="submitData.introduce" placeholder="请输入个人介绍" placeholder-style="font-size:26rpx;color:#999" />
+			</view>
+			<view class="mt-3 pt-3">择偶标准</view>
+			<view class="p-r m-a bB-e1">
+				<!-- <input type="text" value="" placeholder="请输入个人介绍" /> -->
+				<textarea v-model="submitData.criteria" placeholder="请输入择偶标准" placeholder-style="font-size:26rpx;color:#999" />
+			</view>
+			<!-- <view class="p-r m-a bB-e1 flex1" @click="isShow(2)">
+				<input type="text" disabled="true" v-model="choosecriteriaTitle" placeholder="请选择择偶标准" placeholder-style="font-size:26rpx;color:#999" />
+				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+			</view> -->
+			<view class="mt-3 pt-3">相册(可传多张)</view>
+			<view class="p-r m-a bB-e1 flex flex-wrap pt-4 pb-2 photo">
+				<image :src="item.url" v-for="(item,index) of submitData.bannerImg" :key="index" class="wh210 mb-1"></image>
+				<image src="../../static/images/thepersonaldata-icon1.png" v-if="submitData.bannerImg.length<9" @click="upLoadImg('bannerImg')" class="wh210 mb-1"></image>
+			</view>
+			<view class="mt-3 pt-3" v-if="!isEdit"><text style="color: red;">*</text>验证码</view>
+			<view class="p-r m-a bB-e1"  v-if="!isEdit">
+				<input type="number" v-model="submitData.smsCode" placeholder="请填写验证码" placeholder-style="font-size:26rpx;color:#999" />
+				<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" @click="sendCode()" v-if="!hasSend">{{text}}</view>
+				<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" v-if="hasSend">{{text}}</view>
+			</view>
+			<view class="mt-3 pt-3">邀请码</view>
+			<view class="p-r m-a bB-e1">
+				<view v-if="!hasCode">{{submitData.code}}</view>
+				<input type="number"  v-if="hasCode" v-model="submitData.code" placeholder="请填写邀请码(选填)" placeholder-style="font-size:26rpx;color:#999" />
+			</view>
+			<view class="btnAuto" @click="Utils.stopMultiClick(submit)">确定</view>
 		</view>
-		<view class="mt-3 pt-3"><text style="color: red;">*</text>微信号</view>
-		<view class="p-r m-a bB-e1">
-			<input type="text" v-model="submitData.wechat" placeholder="请填写微信号" placeholder-style="font-size:26rpx;color:#999" />
-		</view>
-		<view class="mt-3 pt-3"><text style="color: red;">*</text>手机号</view>
-		<view class="p-r m-a bB-e1">
-			<input type="number" v-model="submitData.phone" placeholder="请填写手机号" placeholder-style="font-size:26rpx;color:#999" />
-		</view>
-		<view class="mt-3 pt-3"><text style="color: red;">*</text>身份证号</view>
-		<view class="p-r m-a bB-e1">
-			<input type="idcard" v-model="submitData.id_card" placeholder="请填写身份证号" placeholder-style="font-size:26rpx;color:#999" />
-		</view>
-		<view class="mt-3 pt-3">性别</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="selector" :range="genderData"  @change="changeGender">
-				<view class="font-26 color9 py-3 select" :style="genderData[genderIndex]?'font-size:32rpx;color:#222':''">{{genderData[genderIndex]?genderData[genderIndex]:'请选择性别'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3">生日</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="date"  @change="birthdayChange">
-				<view class="font-26 color9 py-3 select" :style="submitData.birthday!=''?'font-size:32rpx;color:#222':''">{{submitData.birthday!=''?submitData.birthday:'请选择生日日期'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3">星座</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="selector" :range="constellationData"  @change="Change" data-key="constellation">
-				<view class="font-26 color9 py-3 select" :style="constellationData[constellationIndex]?'font-size:32rpx;color:#222':''">{{constellationData[constellationIndex]?constellationData[constellationIndex]:'请选择星座'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3">身高</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="selector" value="28" :range="heightData" @change="Change" data-key="height">
-				<view class="font-26 color9 py-3 select" :style="heightData[heightIndex]?'font-size:32rpx;color:#222':''">{{heightData[heightIndex]?heightData[heightIndex]:'请选择身高'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3">体重</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="selector" value="28" :range="weightData" @change="Change" data-key="weight">
-				<view class="font-26 color9 py-3 select" :style="weightData[weightIndex]?'font-size:32rpx;color:#222':''">{{weightData[weightIndex]?weightData[weightIndex]:'请选择体重'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3">学历</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="selector" :range="educationData"  @change="Change" data-key="education">
-				<view class="font-26 color9 py-3 select" :style="educationData[educationIndex]?'font-size:32rpx;color:#222':''">{{educationData[educationIndex]?educationData[educationIndex]:'请选择学历'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3">籍贯</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="region"  @change="hometownChange">
-				<view class="font-26 color9 py-3 select" :style="submitData.origin!=''?'font-size:32rpx;color:#222':''">{{submitData.origin!=''?submitData.origin:'请选择籍贯'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3">现居</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="region"  @change="addressChange">
-				<view class="font-26 color9 py-3 select" :style="submitData.province!=''?'font-size:32rpx;color:#222':''">{{submitData.province!=''?submitData.province+'-'+submitData.city:'请选择现居地'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3"><text style="color: red;">*</text>婚姻状况</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker  mode="selector" :range="marriageData"  @change="Change" data-key="marriage">
-				<view class="font-26 color9 py-3 select" :style="marriageData[marriageIndex]?'font-size:32rpx;color:#222':''">{{marriageData[marriageIndex]?marriageData[marriageIndex]:'请选择婚姻状况'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3">职业</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="selector" :range="occupationData"  @change="Change" data-key="occupation">
-				<view class="font-26 color9 py-3 select" :style="occupationData[occupationIndex]?'font-size:32rpx;color:#222':''">{{occupationData[occupationIndex]?occupationData[occupationIndex]:'请选择职业'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3">月收入</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="selector" :range="salaryData"  @change="Change" data-key="salary">
-				<view class="font-26 color9 py-3 select" :style="salaryData[salaryIndex]?'font-size:32rpx;color:#222':''">{{salaryData[salaryIndex]?salaryData[salaryIndex]:'请选择月收入'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<view class="mt-3 pt-3">房车情况</view>
-		<view class="p-r m-a bB-e1 flex1">
-			<picker mode="selector" :range="car_houseData"  @change="ChangecarHouse" range-key="title">
-				<view class="font-26 color9 py-3 select" :style="car_houseData[car_houseIndex]?'font-size:32rpx;color:#222':''">{{car_houseData[car_houseIndex]?car_houseData[car_houseIndex].title:'请选择房车情况'}}</view>
-			</picker>
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view>
-		<!-- <view class="mt-3 pt-3">兴趣爱好</view>
-		<view class="p-r m-a bB-e1 flex1" @click="isShow(1)">
-			<input type="text" disabled="true" v-model="choosehobbyTitle" placeholder="请填写兴趣爱好" placeholder-style="font-size:26rpx;color:#999" />
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view> -->
-		<view class="mt-3 pt-3">兴趣爱好</view>
-		<view class="p-r m-a bB-e1">
-			<!-- <input type="text" value="" placeholder="请输入个人介绍" /> -->
-			<textarea v-model="submitData.hobby" placeholder="请输入兴趣爱好" placeholder-style="font-size:26rpx;color:#999" />
-		</view>
-		<view class="mt-3 pt-3">个人介绍</view>
-		<view class="p-r m-a bB-e1">
-			<!-- <input type="text" value="" placeholder="请输入个人介绍" /> -->
-			<textarea v-model="submitData.introduce" placeholder="请输入个人介绍" placeholder-style="font-size:26rpx;color:#999" />
-		</view>
-		<view class="mt-3 pt-3">择偶标准</view>
-		<view class="p-r m-a bB-e1">
-			<!-- <input type="text" value="" placeholder="请输入个人介绍" /> -->
-			<textarea v-model="submitData.criteria" placeholder="请输入择偶标准" placeholder-style="font-size:26rpx;color:#999" />
-		</view>
-		<!-- <view class="p-r m-a bB-e1 flex1" @click="isShow(2)">
-			<input type="text" disabled="true" v-model="choosecriteriaTitle" placeholder="请选择择偶标准" placeholder-style="font-size:26rpx;color:#999" />
-			<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
-		</view> -->
-		<view class="mt-3 pt-3">相册(可传多张)</view>
-		<view class="p-r m-a bB-e1 flex flex-wrap pt-4 pb-2 photo">
-			<image :src="item.url" v-for="(item,index) of submitData.bannerImg" :key="index" class="wh210 mb-1"></image>
-			<image src="../../static/images/thepersonaldata-icon1.png" v-if="submitData.bannerImg.length<9" @click="upLoadImg('bannerImg')" class="wh210 mb-1"></image>
-		</view>
-		<view class="mt-3 pt-3" v-if="!isEdit"><text style="color: red;">*</text>验证码</view>
-		<view class="p-r m-a bB-e1"  v-if="!isEdit">
-			<input type="number" v-model="submitData.smsCode" placeholder="请填写验证码" placeholder-style="font-size:26rpx;color:#999" />
-			<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" @click="sendCode()" v-if="!hasSend">{{text}}</view>
-			<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" v-if="hasSend">{{text}}</view>
-		</view>
-		<view class="mt-3 pt-3">邀请码</view>
-		<view class="p-r m-a bB-e1">
-			<view v-if="!hasCode">{{submitData.code}}</view>
-			<input type="number"  v-if="hasCode" v-model="submitData.code" placeholder="请填写邀请码(选填)" placeholder-style="font-size:26rpx;color:#999" />
-		</view>
-		<view class="btnAuto" @click="Utils.stopMultiClick(submit)">确定</view>
 		
 		
 		<!-- 兴趣爱好 -->
