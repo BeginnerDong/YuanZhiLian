@@ -1,91 +1,94 @@
 <template>
 	<view>
-		
-		<view class="head">
-			<view class="flex colorf p-3">
-				<image style="border-radius: 50%;overflow: hidden;" :src="userData.headImgUrl?userData.headImgUrl:''" class="wh100"></image>
-				<view class="pl-2">
-					<view class="font-w pb-1">{{userData.nickname?userData.nickname:''}}</view>
-					<view class="sign" v-if="userData.info.behavior==0">游客</view>
-					<view class="sign" v-if="userData.info.behavior==1">普通会员</view>
-					<view class="sign" v-if="userData.info.behavior==2">黄金会员</view>
-				</view>
-			</view>
-			<view class="font-32 p-r">
-				<view class="p-a left-0 vipTit" @click="change('nav',0)" :class="navCurr==0?'colorf z10':'colorG'" >
-					<image src="../../static/images/vip-icon1.png" class="iconBg" v-if="navCurr==0"></image>
-					<image src="../../static/images/vip-icon6.png" class="iconBg" v-else></image>
-					<view class="font-w flex0 p-aXY">
-						<image src="../../static/images/vip-icon3.png" class="icon" v-if="navCurr==0"></image>
-						<image src="../../static/images/vip-icon14.png" class="icon" v-else></image>
-						<view>普通会员</view>
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
+		<view class="p-r">
+			<view class="head">
+				<view class="flex colorf p-3">
+					<image style="border-radius: 50%;overflow: hidden;" :src="userData.headImgUrl?userData.headImgUrl:''" class="wh100"></image>
+					<view class="pl-2">
+						<view class="font-w pb-1">{{userData.nickname?userData.nickname:''}}</view>
+						<view class="sign" v-if="userData.info.behavior==0">游客</view>
+						<view class="sign" v-if="userData.info.behavior==1">普通会员</view>
+						<view class="sign" v-if="userData.info.behavior==2">黄金会员</view>
 					</view>
 				</view>
-				<view class="p-a right-0 vipTit" @click="change('nav',1)" :class="navCurr==1?'colorf z10':'colorG'" >
-					<image src="../../static/images/vip-icon5.png" class="iconBg" v-if="navCurr==1"></image>
-					<image src="../../static/images/vip-icon2.png" class="iconBg" v-else></image>
-					<view class="font-w flex0 p-aXY">
-						<image src="../../static/images/vip-icon13.png" class="icon" v-if="navCurr==1"></image>
-						<image src="../../static/images/vip-icon4.png" class="icon" v-else></image>
-						<view>黄金会员</view>
-					</view>
-				</view>
-			</view>
-		</view>
-		
-		<view v-show="navCurr==0&&userData.info&&userData.info.behavior==0">
-			<view class="p-3 font-w bg-white">
-				<view class="font-36">注册会员信息</view>
-				
-				<view class="bB-e1">
-					<view class="pt-5">姓名</view>
-					<input type="text" v-model="submitData.name" placeholder="请填写姓名" placeholder-style="color:#dedede" />
-				</view>
-				<view class="bB-e1">
-					<view class="pt-5">手机号</view>
-					<input type="text" v-model="submitData.phone" placeholder="请填写手机号" placeholder-style="color:#dedede" />
-				</view>
-				<view class="p-r bB-e1">
-					<view class="pt-5">验证码</view>
-					<input type="text" v-model="submitData.code" placeholder="请填写验证码" placeholder-style="color:#dedede" />
-					<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" @click="sendCode()" v-if="!hasSend">{{text}}</view>
-					<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" v-if="hasSend">{{text}}</view>
-				</view>
-				<view class="btnAuto" @click="userInfoUpdate">完成</view>
-			</view>
-		</view>
-		
-		
-		<view v-show="navCurr==1">
-			<view class="p-3 font-w bg-white mb-1">
-				<view class="font-36 pb-3">黄金VIP会员</view>
-				<view class="flex1">
-					<view class="flex4 radius10 b-e1 p-r vipCard"
-							:class="vipCurr==index?'on':''"
-							v-for="(item,index) in productData" :key="index" 
-							@click="vipChange(index)"
-							v-if="index<3"
-						>
-						<view class="colorG font-34 flex">
-							<image :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" class="kingIcon mr-1"></image>
-							<view>{{item.title}}</view>
+				<view class="font-32 p-r">
+					<view class="p-a left-0 vipTit" @click="change('nav',0)" :class="navCurr==0?'colorf z10':'colorG'" >
+						<image src="../../static/images/vip-icon1.png" class="iconBg" v-if="navCurr==0"></image>
+						<image src="../../static/images/vip-icon6.png" class="iconBg" v-else></image>
+						<view class="font-w flex0 p-aXY">
+							<image src="../../static/images/vip-icon3.png" class="icon" v-if="navCurr==0"></image>
+							<image src="../../static/images/vip-icon14.png" class="icon" v-else></image>
+							<view>普通会员</view>
 						</view>
-						<view class="price1 font-50">{{item.price}}</view>
-						<image src="../../static/images/vip-icon10.png" class="vipIcon" v-show="vipCurr==index"></image>
+					</view>
+					<view class="p-a right-0 vipTit" @click="change('nav',1)" :class="navCurr==1?'colorf z10':'colorG'" >
+						<image src="../../static/images/vip-icon5.png" class="iconBg" v-if="navCurr==1"></image>
+						<image src="../../static/images/vip-icon2.png" class="iconBg" v-else></image>
+						<view class="font-w flex0 p-aXY">
+							<image src="../../static/images/vip-icon13.png" class="icon" v-if="navCurr==1"></image>
+							<image src="../../static/images/vip-icon4.png" class="icon" v-else></image>
+							<view>黄金会员</view>
+						</view>
 					</view>
 				</view>
 			</view>
 			
-			<view class="font-36 bg-white p-3 flex1">
-				<image src="../../static/images/vip-icon12.png" class="wh48"></image>
-				<view class="flex-1 pl-2">微信支付</view>
-				<image src="../../static/images/vip-icon11.png" class="wh36"></image>
+			<view v-show="navCurr==0&&userData.info&&userData.info.behavior==0">
+				<view class="p-3 font-w bg-white">
+					<view class="font-36">注册会员信息</view>
+					
+					<view class="bB-e1">
+						<view class="pt-5">姓名</view>
+						<input type="text" v-model="submitData.name" placeholder="请填写姓名" placeholder-style="color:#dedede" />
+					</view>
+					<view class="bB-e1">
+						<view class="pt-5">手机号</view>
+						<input type="text" v-model="submitData.phone" placeholder="请填写手机号" placeholder-style="color:#dedede" />
+					</view>
+					<view class="p-r bB-e1">
+						<view class="pt-5">验证码</view>
+						<input type="text" v-model="submitData.code" placeholder="请填写验证码" placeholder-style="color:#dedede" />
+						<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" @click="sendCode()" v-if="!hasSend">{{text}}</view>
+						<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" v-if="hasSend">{{text}}</view>
+					</view>
+					<view class="btnAuto" @click="userInfoUpdate">完成</view>
+				</view>
 			</view>
 			
-			<view class="font-30 shadowM font-w flex1 pl-3 bg-white p-fX bottom-0">
-				<view class="flex">总价：<text class="price1 font-40">{{productData[vipCurr]?productData[vipCurr].price:''}}</text></view>
-				<view class="carBtn" @click="Utils.stopMultiClick(message)">确认支付</view>
+			
+			<view v-show="navCurr==1">
+				<view class="p-3 font-w bg-white mb-1">
+					<view class="font-36 pb-3">黄金VIP会员</view>
+					<view class="flex1">
+						<view class="flex4 radius10 b-e1 p-r vipCard"
+								:class="vipCurr==index?'on':''"
+								v-for="(item,index) in productData" :key="index" 
+								@click="vipChange(index)"
+								v-if="index<3"
+							>
+							<view class="colorG font-34 flex">
+								<image :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" class="kingIcon mr-1"></image>
+								<view>{{item.title}}</view>
+							</view>
+							<view class="price1 font-50">{{item.price}}</view>
+							<image src="../../static/images/vip-icon10.png" class="vipIcon" v-show="vipCurr==index"></image>
+						</view>
+					</view>
+				</view>
+				
+				<view class="font-36 bg-white p-3 flex1">
+					<image src="../../static/images/vip-icon12.png" class="wh48"></image>
+					<view class="flex-1 pl-2">微信支付</view>
+					<image src="../../static/images/vip-icon11.png" class="wh36"></image>
+				</view>
+				
+				<view class="font-30 shadowM font-w flex1 pl-3 bg-white p-fX bottom-0">
+					<view class="flex">总价：<text class="price1 font-40">{{productData[vipCurr]?productData[vipCurr].price:''}}</text></view>
+					<view class="carBtn" @click="Utils.stopMultiClick(message)">确认支付</view>
+				</view>
 			</view>
+			
 		</view>
 		
 		
@@ -352,6 +355,7 @@
 				const callback = (res) => {
 					if (res.info.data.length > 0) {
 						self.userData = res.info.data[0];
+						self.submitData.phone = self.userData.info.phone;
 						if(self.userData.info.behavior>0){
 							self.navCurr=1
 						}

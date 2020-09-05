@@ -1,7 +1,7 @@
 <template>
 	<view class="px-5 py-4 infor">
 		<!-- <image src="../../static/images/bg.jpg" class="p-fXY o6"></image> -->
-		
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
 		<view class="p-r">
 			<view class="font-50 font-w py-2">填写你的个人信息</view>
 			<view class="font-26 color6">让更多人的人认识你</view>
@@ -122,9 +122,73 @@
 				<textarea v-model="submitData.introduce" placeholder="请输入个人介绍" placeholder-style="font-size:26rpx;color:#999" />
 			</view>
 			<view class="mt-3 pt-3">择偶标准</view>
-			<view class="p-r m-a bB-e1">
+			<view class="p-r m-a bB-e1 pdlr4" style="padding: 0 30rpx;">
+				<view class="mt-3 pt-3"><text style="color: red;">*</text>年龄</view>
+				<view class="p-r m-a bB-e1 flex1">
+					<picker mode="selector"  :range="zo_ageData" @change="zoChange" data-key="zo_age">
+						<view class="font-26 color9 py-3 select" 
+						:style="zo_ageData[zo_ageIndex]?'color:#222':''">{{zo_ageData[zo_ageIndex]?zo_ageData[zo_ageIndex]:''}}</view>
+					</picker>
+					<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+				</view>
+				
+				<view class="mt-3 pt-3"><text style="color: red;">*</text>身高</view>
+				<view class="p-r m-a bB-e1 flex1">
+					<picker mode="selector"  :range="zo_heightData" @change="zoChange" data-key="zo_height">
+						<view class="font-26 color9 py-3 select" 
+						:style="zo_heightData[zo_heightIndex]?'color:#222':''">{{zo_heightData[zo_heightIndex]?zo_heightData[zo_heightIndex]:''}}</view>
+					</picker>
+					<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+				</view>
+				
+				<view class="mt-3 pt-3"><text style="color: red;">*</text>学历</view>
+				<view class="p-r m-a bB-e1 flex1">
+					<picker mode="selector"  :range="zo_educationData" @change="zoChange" data-key="zo_education">
+						<view class="font-26 color9 py-3 select" 
+						:style="zo_educationData[zo_educationIndex]?'color:#222':''">{{zo_educationData[zo_educationIndex]?zo_educationData[zo_educationIndex]:''}}</view>
+					</picker>
+					<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+				</view>
+				
+				<view class="mt-3 pt-3"><text style="color: red;">*</text>地区</view>
+				<view class="p-r m-a bB-e1 flex1">
+					<picker mode="region"  @change="zohometownChange">
+						<view class="font-26 color9 py-3 select" :style="submitData.zo_region!=''?'color:#222':''">{{submitData.zo_region!=''?submitData.zo_region:''}}</view>
+					</picker>
+					<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+				</view>
+				
+				<view class="mt-3 pt-3"><text style="color: red;">*</text>职业</view>
+				<view class="p-r m-a bB-e1 flex1">
+					<picker mode="selector"  :range="zo_workData" @change="zoChange" data-key="zo_work">
+						<view class="font-26 color9 py-3 select" 
+						:style="zo_workData[zo_workIndex]?'color:#222':''">{{zo_workData[zo_workIndex]?zo_workData[zo_workIndex]:''}}</view>
+					</picker>
+					<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+				</view>
+				
+				<view class="mt-3 pt-3"><text style="color: red;">*</text>车房</view>
+				<view class="p-r m-a bB-e1 flex1">
+					<picker mode="selector" :range="zo_car_houseData"  @change="zoChangecarHouse" range-key="title">
+						<view class="font-26 color9 py-3 select" :style="zo_car_houseData[zo_car_houseIndex]?'color:#222':''">{{zo_car_houseData[zo_car_houseIndex]?zo_car_houseData[zo_car_houseIndex].title:''}}</view>
+					</picker>
+					<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+				</view>
+				
+				<view class="mt-3 pt-3"><text style="color: red;">*</text>婚姻</view>
+				<view class="p-r m-a bB-e1 flex1">
+					<picker mode="selector"  :range="zo_marriageData" @change="zoChange" data-key="zo_marriage">
+						<view class="font-26 color9 py-3 select" 
+						:style="zo_marriageData[zo_marriageIndex]?'color:#222':''">{{zo_marriageData[zo_marriageIndex]?zo_marriageData[zo_marriageIndex]:''}}</view>
+					</picker>
+					<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+				</view>
 				<!-- <input type="text" value="" placeholder="请输入个人介绍" /> -->
-				<textarea v-model="submitData.criteria" placeholder="请输入择偶标准" placeholder-style="font-size:26rpx;color:#999" />
+				<view class="mt-3 pt-3"><text style="color: red;">*</text>其他</view>
+				<view class="p-r m-a bB-e1">
+					<!-- <input type="text" value="" placeholder="请输入个人介绍" /> -->
+					<textarea v-model="submitData.zo_other" placeholder="补充其他要求" placeholder-style="font-size:26rpx;color:#999" />
+				</view>
 			</view>
 			<!-- <view class="p-r m-a bB-e1 flex1" @click="isShow(2)">
 				<input type="text" disabled="true" v-model="choosecriteriaTitle" placeholder="请选择择偶标准" placeholder-style="font-size:26rpx;color:#999" />
@@ -135,23 +199,22 @@
 				<image :src="item.url" v-for="(item,index) of submitData.bannerImg" :key="index" class="wh210 mb-1"></image>
 				<image src="../../static/images/thepersonaldata-icon1.png" v-if="submitData.bannerImg.length<9" @click="upLoadImg('bannerImg')" class="wh210 mb-1"></image>
 			</view>
-			<view class="mt-3 pt-3" v-if="!isEdit"><text style="color: red;">*</text>验证码</view>
+			<!-- <view class="mt-3 pt-3" v-if="!isEdit"><text style="color: red;">*</text>验证码</view>
 			<view class="p-r m-a bB-e1"  v-if="!isEdit">
 				<input type="number" v-model="submitData.smsCode" placeholder="请填写验证码" placeholder-style="font-size:26rpx;color:#999" />
 				<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" @click="sendCode()" v-if="!hasSend">{{text}}</view>
 				<view class="colorR p-a mb-3 right-0 bottom-0 font-30" style="z-index: 99;" v-if="hasSend">{{text}}</view>
-			</view>
+			</view> -->
 			<view class="mt-3 pt-3">邀请码</view>
 			<view class="p-r m-a bB-e1">
-				<view v-if="!hasCode">{{submitData.code}}</view>
-				<input type="number"  v-if="hasCode" v-model="submitData.code" placeholder="请填写邀请码(选填)" placeholder-style="font-size:26rpx;color:#999" />
+				<view v-if="hasCode">{{submitData.code}}</view>
+				<input type="text"  v-if="!hasCode" v-model="submitData.code" placeholder="请填写邀请码(选填)" placeholder-style="font-size:26rpx;color:#999" />
 			</view>
 			<view class="btnAuto" @click="Utils.stopMultiClick(submit)">确定</view>
 		</view>
 		
 		
-		<!-- 兴趣爱好 -->
-		<cover-view class="bg-mask" v-show="is_show==1">
+		<!-- <cover-view class="bg-mask" v-show="is_show==1">
 			<cover-view class="box radius20-T p-aX bottom-0 bg-white">
 				<cover-view class="flex1 p-3">
 					<cover-view @click="isShow(0)">取消</cover-view>
@@ -168,7 +231,6 @@
 				</cover-view>
 			</cover-view>
 		</cover-view>
-		<!-- 择偶标准 -->
 		<cover-view class="bg-mask" v-show="is_show==2">
 			<cover-view class="box radius20-T p-aX bottom-0 bg-white">
 				<cover-view class="flex1 p-3">
@@ -185,7 +247,7 @@
 					>{{item.title}}</cover-view>
 				</cover-view>
 			</cover-view>
-		</cover-view>
+		</cover-view> -->
 		
 	</view>
 </template>
@@ -220,12 +282,20 @@
 					 occupation:'',   // 职业 
 					 salary:'',   // 月收入 
 					 hobby:'',   //爱好 
-					 criteria:'',   // 择偶标准 
+					 //criteria:'',   // 择偶标准 
 					 is_show:1,
 					 id_card:'',
 					 
 					 smsCode:'',
-					 code:''
+					 code:'',
+					 zo_age:'不限',
+					 zo_height:'不限',
+					 zo_education:'不限',
+					 zo_region:'不限',
+					 zo_work:'不限',
+					 zo_car_house:'0',
+					 zo_marriage:'不限',
+					 zo_other:''
 				},
 				is_show:0,
 				
@@ -237,7 +307,7 @@
 				weightIndex:-1,
 				educationData:['高中','专科','本科','研究生','硕士','博士','其他'],
 				educationIndex:-1,
-				marriageData:['未婚','已婚','离异未育','离异有孩（男孩）','离异有孩（女孩）','丧偶未育','丧偶有孩（男孩）','丧偶有孩（女孩）'],
+				marriageData:['未婚','离异未育','离异有孩（男孩）','离异有孩（女孩）','丧偶未育','丧偶有孩（男孩）','丧偶有孩（女孩）'],
 				marriageIndex:-1,
 				occupationData:['学生','销售','IT/互联网','通信/电子','生产/制造','物流/仓储','商贸/仓储','人事/行政',
 				'高级管理','广告/市场','传媒/艺术','生物/制药','医疗/护理','金融','建筑/房地产','咨询/顾问','法律',
@@ -259,14 +329,34 @@
 				text:'获取验证码',
 				hasSend:false,
 				isEdit:false,
-				hasCode:false
+				hasCode:false,
+				
+				zo_ageData:['不限','18-25','25-30','30-35','35-40','40-45','45-50','50-55','55-60','60-65'],
+				zo_ageIndex:0,
+				zo_heightData:['不限'],
+				zo_heightIndex:0,
+				zo_educationData:['不限','高中','专科','本科','研究生','硕士','博士','其他'],
+				zo_educationIndex:0,
+				zo_workData:['不限','学生','销售','IT/互联网','通信/电子','生产/制造','物流/仓储','商贸/仓储','人事/行政',
+				'高级管理','广告/市场','传媒/艺术','生物/制药','医疗/护理','金融','建筑/房地产','咨询/顾问','法律',
+				'财会/审计','教育/科研','服务业','交通运输','政府机构','军人/警察','农林牧渔','自由职业','待业','其他'],
+				zo_workIndex:0,
+				zo_car_houseData:[{title:'不限',value:0},{title:'有车有房',value:1},{title:'有房无车',value:2},{title:'有车无房',value:3},{title:'无车无房',value:4}],
+				zo_car_houseIndex:0,
+				zo_marriageData:['不限','未婚','离异未育','离异有孩（男孩）','离异有孩（女孩）','丧偶未育','丧偶有孩（男孩）','丧偶有孩（女孩）'],
+				zo_marriageIndex:0,
+				
 			}
 		},
 		
 		onLoad() {
 			const self = this;
+			/* for(var i=18;i<70;i++){
+				self.zo_ageData.push(i);
+			} */
 			for(var i=140;i<221;i++){
 				self.heightData.push(i+'cm');
+				self.zo_heightData.push(i+'cm')
 			}
 			for(var i=40;i<100;i++){
 				self.weightData.push(i+'kg');
@@ -372,6 +462,15 @@
 						/* self.choosecriteriaData = self.mainData.criteria; */
 						//self.choosehobbyData = self.mainData.hobby;
 						self.genderIndex =parseInt(self.submitData.gender) - 1
+						
+						self.submitData.zo_age = self.mainData.zo_age;
+						self.submitData.zo_height  = self.mainData.zo_height;
+						self.submitData.zo_education  = self.mainData.zo_education;
+						self.submitData.zo_region  = self.mainData.zo_region;
+						self.submitData.zo_work  = self.mainData.zo_work;
+						self.submitData.zo_car_house  = self.mainData.zo_car_house;
+						self.submitData.zo_marriage = self.mainData.zo_marriage;
+						self.submitData.zo_other = self.mainData.zo_other;
 						/* var hobbyTitle = []
 						for (var i = 0; i < self.hobbyData.length; i++) {
 							for (var j = 0; j < self.submitData.hobby.length; j++) {
@@ -438,6 +537,46 @@
 							if(self.car_houseData[i].value==self.mainData.car_house){
 								self.car_houseIndex = i
 								self.submitData.car_house = self.mainData.car_house
+							}
+						};
+						
+						for (var i = 0; i < self.zo_car_houseData.length; i++) {
+							if(self.zo_car_houseData[i].value==self.mainData.zo_car_house){
+								self.zo_car_houseIndex = i
+								self.submitData.zo_car_house = self.mainData.zo_car_house
+							}
+						};
+						
+						for (var i = 0; i < self.zo_ageData.length; i++) {
+							if(self.zo_ageData[i]==self.mainData.zo_age){
+								self.zo_ageIndex =i
+								self.submitData.zo_age = self.mainData.zo_age
+							}
+						};
+						for (var i = 0; i < self.zo_heightData.length; i++) {
+							if(self.zo_heightData[i]==self.mainData.zo_height){
+								self.zo_heightIndex =i
+								self.submitData.zo_height = self.mainData.zo_height
+							}
+						};
+						for (var i = 0; i < self.zo_workData.length; i++) {
+							if(self.zo_workData[i]==self.mainData.zo_work){
+								self.zo_workIndex =i
+								self.submitData.zo_work = self.mainData.zo_work
+							}
+						};
+						
+						
+						for (var i = 0; i < self.zo_educationData.length; i++) {
+							if(self.zo_educationData[i]==self.mainData.zo_education){
+								self.zo_educationIndex =i
+								self.submitData.zo_education = self.mainData.zo_education
+							}
+						};
+						for (var i = 0; i < self.zo_marriageData.length; i++) {
+							if(self.zo_marriageData[i]==self.mainData.zo_marriage){
+								self.zo_marriageIndex =i
+								self.submitData.zo_marriage = self.mainData.zo_marriage
 							}
 						};
 					}
@@ -552,14 +691,15 @@
 				if(self.userData.info.behavior==0){
 					postData.saveAfter[0].data.behavior = 1
 				};
-				if(!self.isEdit){
+				/* if(!self.isEdit){
 					postData.smsAuth = {
 						phone:self.submitData.phone,						
 						code:self.submitData.smsCode,
 					};
-				};
+				}; */
 				const callback = (res) => {
 					if (res.solely_code==100000) {
+						uni.setStorageSync('canClick', true);
 						self.$Utils.showToast('完善成功', 'none');
 						setTimeout(function() {
 							uni.navigateBack({
@@ -663,10 +803,23 @@
 				console.log(self.submitData);
 			},
 			
+			zoChange(e){
+				const self = this;
+				self[e.currentTarget.dataset.key+'Index'] = e.detail.value;
+				self.submitData[e.currentTarget.dataset.key] = self[e.currentTarget.dataset.key+'Data'][e.detail.value];
+				console.log(self.submitData);
+			},
+			
 			ChangecarHouse(e){
 				const self = this;
 				self.car_houseIndex = e.detail.value;
 				self.submitData.car_house = self.car_houseData[e.detail.value].value
+			},
+			
+			zoChangecarHouse(e){
+				const self = this;
+				self.zo_car_houseIndex = e.detail.value;
+				self.submitData.zo_car_house = self.zo_car_houseData[e.detail.value].value
 			},
 			
 			changeGender(e){
@@ -679,6 +832,12 @@
 			hometownChange(e){
 				const self =  this;
 				self.submitData.origin = e.detail.value[0]+e.detail.value[1]+e.detail.value[2];
+				console.log(e);
+			},
+			
+			zohometownChange(e){
+				const self =  this;
+				self.submitData.zo_region = e.detail.value[0]+e.detail.value[1]+e.detail.value[2];
 				console.log(e);
 			},
 		}

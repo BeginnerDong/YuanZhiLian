@@ -1,25 +1,28 @@
 <template>
 	<view>
-		
-		<view v-if="is_show">
-			<image src="../../static/images/setupthe-icon.png" class="phone1"></image>
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
+		<view class="p-r">
+			<view v-if="is_show">
+				<image src="../../static/images/setupthe-icon.png" class="phone1"></image>
+				
+				<view class="w600 m-a bB-e1">
+					<input type="text" v-model="submitData.phone" placeholder="请输入手机号" />
+				</view>
+				<view class="p-r w600 m-a bB-e1 flex1">
+					<input type="text" v-model="submitData.code" placeholder="请输入验证码" />
+					<view class="colorR font-w" style="z-index: 99;" @click="sendCode()" v-if="!hasSend">{{text}}</view>
+					<view class="colorR font-w" style="z-index: 99;" v-if="hasSend">{{text}}</view>
+				</view>
 			
-			<view class="w600 m-a bB-e1">
-				<input type="text" v-model="submitData.phone" placeholder="请输入手机号" />
+				<view class="btnAuto" @click="userInfoUpdate">完成</view>
 			</view>
-			<view class="p-r w600 m-a bB-e1 flex1">
-				<input type="text" v-model="submitData.code" placeholder="请输入验证码" />
-				<view class="colorR font-w" style="z-index: 99;" @click="sendCode()" v-if="!hasSend">{{text}}</view>
-				<view class="colorR font-w" style="z-index: 99;" v-if="hasSend">{{text}}</view>
+			
+			<view v-else>
+				<image src="../../static/images/setupthe-icon1.png" class="phone2"></image>
+				<view class="text-center font-32">绑定手机号：{{userData.info&&userData.info.phone!=''?userData.info.phone:'暂未绑定'}}</view>
 			</view>
-		
-			<view class="btnAuto" @click="userInfoUpdate">完成</view>
 		</view>
 		
-		<view v-else>
-			<image src="../../static/images/setupthe-icon1.png" class="phone2"></image>
-			<view class="text-center font-32">绑定手机号：{{userData.info&&userData.info.phone!=''?userData.info.phone:'暂未绑定'}}</view>
-		</view>
 		
 	</view>
 </template>

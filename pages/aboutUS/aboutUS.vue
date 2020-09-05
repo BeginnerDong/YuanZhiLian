@@ -1,7 +1,7 @@
 <template>
 	<view class="p-3">
-		
-		<view class="content ql-editor" style="padding:0;" v-html="mainData.content">
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
+		<view class="content ql-editor p-r" style="padding:0;" v-html="mainData.content">
 		</view>
 		
 	</view>

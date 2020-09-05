@@ -1,20 +1,23 @@
 <template>
 	<view>
-		
-		<view class="flex mx-3 py-3 bB-f5">
-			<image src="../../static/images/contactus-icon.png" class="icon mr-3"></image>
-			<view>{{mainData.phone?mainData.phone:''}}</view>
-		</view>
-		<view class="flex mx-3 py-3">
-			<image src="../../static/images/contactus-icon1.png" class="icon1 mr-3"></image>
-			<view>{{mainData.description?mainData.description:''}}</view>
-		</view>
-		<view class="f5Bj-H20"></view>
-		
-		<view class="p-3">
-			<view class="content ql-editor" style="padding:0;" v-html="mainData.content">
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
+		<view class="p-r">
+			<view class="flex mx-3 py-3 bB-f5">
+				<image src="../../static/images/contactus-icon.png" class="icon mr-3"></image>
+				<view>{{mainData.phone?mainData.phone:''}}</view>
+			</view>
+			<view class="flex mx-3 py-3">
+				<image src="../../static/images/contactus-icon1.png" class="icon1 mr-3"></image>
+				<view>{{mainData.description?mainData.description:''}}</view>
+			</view>
+			<view class="f5Bj-H20"></view>
+			
+			<view class="p-3">
+				<view class="content ql-editor" style="padding:0;" v-html="mainData.content">
+				</view>
 			</view>
 		</view>
+		
 		
 	</view>	
 </template>

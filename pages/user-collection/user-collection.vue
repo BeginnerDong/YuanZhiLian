@@ -1,6 +1,7 @@
 <template>
 	<view class="p-3">
-		<view class="line-h" v-for="(item,index) in mainData" :key="index"
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
+		<view class="line-h p-r" v-for="(item,index) in mainData" :key="index"
 		@click="toDetail(index)">
 			<view class="p-r radius30 overflow-h shadowM">
 				<image :src="item.bannerImg&&item.bannerImg[0]?item.bannerImg[0].url:''" class="homeImg"></image>

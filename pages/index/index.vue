@@ -58,7 +58,7 @@
 			
 			<view class="p-aX bottom-0 radius20-T bg-white font-30 pt-3 flex5 choose">
 				<view style="position: absolute;top: 30rpx;right: 20rpx;color: #FF515B;font-weight: 700;" @click="closeSearch">取消</view>
-				<view class="flex-1 flexY mx-3">
+				<view class="flex-1 flexY mx-3" style="-webkit-overflow-scrolling:touch;height: 1100rpx;">
 					<view>你想要寻找</view>
 					<view class="flex2 pt-3 pb-5  px-5">
 						<image @click="genderSearch(2)" :src="searchItem.gender&&searchItem.gender==2?'../../static/images/home-icon8.png':'../../static/images/home-icon6.png'" class="wh120"></image>
@@ -115,7 +115,15 @@
 		</view>
 		
 		
-		
+		<view class="bg-mask z1000 line-h" v-show="is_show2">
+			<view class="p-aX bottom-0 radius20-T bg-white font-30 pt-3 flex5">
+				<view class="text-center" style="font-weight: 700;font-size:18px">提示</view>
+				<view class="text-center" style="padding:50rpx 0;">确认登录使用小程序</view>
+				<button class="flex0 bg-white py-2 bT-f5" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
+					<view class="grayBtn linearBtn">确定</view>
+				</button>
+			</view>
+		</view>
 		<view style="height: 130rpx;"></view>
 		<!-- footer -->
 		<view class="footer">
@@ -151,7 +159,7 @@
 				is_show: false,
 				statusBar: app.globalData.statusBar,
 				mainData:[],
-				is_show1:false,
+				is_show1:true,
 				sliderData:[],
 				searchItem:{
 					is_show:1,
@@ -159,7 +167,8 @@
 				},
 				ageIndex:0,
 				ageData:[{title:'不限',value:[1,1]},{title:'18-25',value:[18,25]},{title:'25-32',value:[25,32]},{title:'32-39',value:[32,39]}
-				,{title:'39-45',value:[39,45]}]
+				,{title:'39-45',value:[39,45]}],
+				is_show2:false
 			}
 		},
 		
@@ -298,7 +307,7 @@
 			toDetail(index){
 				const self = this;
 				
-				if(self.userData.information[0].phone==''){
+				if(self.userData.information[0].wechat==''){
 					uni.showModal({
 						title:'提示',
 						content:'完善您的个人资料即可查看，是否立即完善',
@@ -327,6 +336,48 @@
 				}
 			},
 			
+			getPhoneNumber(e) {
+				const self = this;
+				console.log('e', e);
+				if (e.detail.errMsg == 'getPhoneNumber:fail user deny') {
+					return
+				};
+				const postData = {
+					appid: uni.getStorageSync('user_info').thirdApp.appid,
+					tokenFuncName: 'getProjectToken',
+					encryptedData: e.detail.encryptedData,
+					iv: e.detail.iv
+				};
+				const callback = (res) => {
+					if (res.solely_code == 100000) {
+						self.userInfoUpdate(res.info.phoneNumber)
+					};
+				}
+				self.$apis.decryptWxInfo(postData, callback)
+			},
+			
+			userInfoUpdate(phone){
+				const self = this;
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				postData.data = {
+					phone:phone
+				};
+				postData.searchItem = {
+					user_no:self.userData.user_no
+				};
+				postData.refreshToken = true;
+				const callback = (res) => {
+					if (res.solely_code==100000) {
+						self.$Utils.showToast('登录成功', 'none');
+						self.is_show2 = false;
+					}else{
+						self.$Utils.showToast(res.msg, 'none');
+					}
+				};
+				self.$apis.userInfoUpdate(postData, callback);
+			},
+			
 			submit() {
 				const self = this;
 				uni.setStorageSync('canClick', false);	
@@ -353,6 +404,7 @@
 					if (res.solely_code==100000) {
 						self.is_show1 = false;
 						self.$Utils.showToast('授权成功', 'none');
+						self.is_show2 = true;
 					}else{
 						self.$Utils.showToast(res.msg, 'none');
 					}
@@ -381,6 +433,10 @@
 						self.userData = res.info.data[0];
 						if(self.userData.headImgUrl == ''){
 							self.is_show1 = true
+							return
+						}
+						if(self.userData.info.phone == ''){
+							self.is_show2 = true
 						}
 					};
 				};

@@ -1,17 +1,18 @@
 <template>
 	<view class="p-3">
-		
-		<view class="font-32 font-w">{{mainData.title}}</view>
-		<view class="color6 flex line-h py-3 bB-e1">
-			<image src="../../static/images/activity-icon.png" class="wh26 mr-1"></image>
-			<view>{{mainData.create_time}}</view>
-		</view>
-		
-		<view class="pt-3">
-			<view class="content ql-editor" style="padding:0;" v-html="mainData.content">
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
+		<view class="p-r">
+			<view class="font-32 font-w">{{mainData.title}}</view>
+			<view class="color6 flex line-h py-3 bB-e1">
+				<image src="../../static/images/activity-icon.png" class="wh26 mr-1"></image>
+				<view>{{mainData.create_time}}</view>
+			</view>
+			
+			<view class="pt-3">
+				<view class="content ql-editor" style="padding:0;" v-html="mainData.content">
+				</view>
 			</view>
 		</view>
-		
 	</view>
 </template>
 

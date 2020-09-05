@@ -1,12 +1,15 @@
 <template>
 	<view class="px-3">
-		
-		<view class="font-32 font-w py-3 bB-e1">{{mainData.title}}</view>
-		
-		<view class="pt-3">
-			<view class="content ql-editor" style="padding:0;" v-html="mainData.content">
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
+		<view class="p-r">
+			<view class="font-32 font-w py-3 bB-e1">{{mainData.title}}</view>
+			
+			<view class="pt-3">
+				<view class="content ql-editor" style="padding:0;" v-html="mainData.content">
+				</view>
 			</view>
 		</view>
+		
 		
 	</view>
 </template>

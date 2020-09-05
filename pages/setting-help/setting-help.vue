@@ -1,22 +1,26 @@
 <template>
 	<view>
-		<view class="font-26 color6 p-3 bg-white bB-e1">热点问题</view>
-		<view class="px-3 bg-white">
-			<view class="flex1 py-4 bB-f5" 
-				v-for="(item,index) in mainData" :key="index"
-				:data-id = "item.id"
-				@click="Router.navigateTo({route:{path:'/pages/setting-answer/setting-answer?id='+$event.currentTarget.dataset.id}})"
-			 >
-				<view class="flex-1">{{item.title}}</view>
-				<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
+		<view class="p-r">
+			<view class="font-26 color6 p-3 bg-white bB-e1">热点问题</view>
+			<view class="px-3 bg-white">
+				<view class="flex1 py-4 bB-f5" 
+					v-for="(item,index) in mainData" :key="index"
+					:data-id = "item.id"
+					@click="Router.navigateTo({route:{path:'/pages/setting-answer/setting-answer?id='+$event.currentTarget.dataset.id}})"
+				 >
+					<view class="flex-1">{{item.title}}</view>
+					<image src="../../static/images/thepersonal-data-icon.png" class="R-icon"></image>
+				</view>
+				
 			</view>
 			
+			<button open-type="contact" style="position: fixed;bottom: 0;width: 100%;background-color: #fff;height: 100rpx;line-height: 100rpx;border-radius: 0;text-align: center;font-size: 15px;" class="d-flex a-center j-center">
+				<image src="../../static/images/thepersonal-data-icon1.png" style="width: 30rpx;margin-right: 10rpx;height: 30rpx;"></image>
+				没找到问题？咨询客服
+			</button>
 		</view>
 		
-		<button open-type="contact" style="position: fixed;bottom: 0;width: 100%;background-color: #fff;height: 100rpx;line-height: 100rpx;border-radius: 0;text-align: center;font-size: 15px;" class="d-flex a-center j-center">
-			<image src="../../static/images/thepersonal-data-icon1.png" style="width: 30rpx;margin-right: 10rpx;height: 30rpx;"></image>
-			没找到问题？咨询客服
-		</button>
 	</view>
 </template>
 
