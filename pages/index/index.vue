@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view :class="is_show?'h100':''">
 		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
 		
 		<view class="head p-r colorf z10">
@@ -54,11 +54,11 @@
 		</view>
 		
 		<!-- 条件筛选 -->
-		<view class="bg-mask z1000 line-h" v-show="is_show">
+		<view class="bg-mask z10 line-h" v-show="is_show">
 			
 			<view class="p-aX bottom-0 radius20-T bg-white font-30 pt-3 flex5 choose">
-				<view style="position: absolute;top: 30rpx;right: 20rpx;color: #FF515B;font-weight: 700;" @click="closeSearch">取消</view>
-				<view class="flex-1 flexY mx-3" style="-webkit-overflow-scrolling:touch;height: 1100rpx;">
+				<view style="position: absolute;top: 30rpx;right: 20rpx;color: #FF515B;font-weight: 700;z-index: 100;"  @click="closeSearch">取消</view>
+				<scroll-view :scroll-top="scrollTop" scroll-y="true" class="flex-1 px-3" >
 					<view>你想要寻找</view>
 					<view class="flex2 pt-3 pb-5  px-5">
 						<image @click="genderSearch(2)" :src="searchItem.gender&&searchItem.gender==2?'../../static/images/home-icon8.png':'../../static/images/home-icon6.png'" class="wh120"></image>
@@ -96,7 +96,7 @@
 							{{ageData[ageIndex]?ageData[ageIndex].title:'请选择你希望的年龄'}}</view>
 						</picker>
 					</view>
-				</view>
+				</scroll-view>
 				<view class="flex0 bg-white py-2 bT-f5">
 					<view class="grayBtn mr-4" @click="reset">重置</view>
 					<view class="grayBtn linearBtn ml-4" @click="confirmSearch">确定</view>
@@ -477,6 +477,7 @@
 	};
 </script>
 <style scoped>
+.h100{height: 100%;overflow: hidden;}
 .homeBg{width: 100%;height: 400rpx;}
 .head .tit{line-height: 100rpx;}
 .banner,swiper-item{width: 690rpx;height: 320rpx;border-radius: 20rpx;overflow: hidden;margin-top: 10rpx;}
@@ -491,4 +492,6 @@
 .choose{height: 1100rpx;box-sizing: border-box;}
 
 input{font-size: 30rpx;text-align: right;}
+scroll-view{width: auto;height: 80%;}
 </style>
+<style>page{height: 100%;}</style>
