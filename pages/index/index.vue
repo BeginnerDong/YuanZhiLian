@@ -6,7 +6,7 @@
 			<image src="../../static/images/home-img.png" class="p-aXY homeBg top-0"></image>
 			<view class="px-3 p-r" >
 				<view class="font-36 text-center tit" :style="{paddingTop:statusBar+'px'}">缘之恋</view>
-				<view class="d-flex a-center j-end" @click="isShow">
+				<view class="d-flex a-center j-end" @click="isShow" v-if="checkData.listorder&&checkData.listorder!=10">
 					<view>条件筛选</view>
 					<image src="../../static/images/home-icon.png" class="sj-icon"></image>
 				</view>
@@ -21,7 +21,7 @@
 		</view>
 		
 		<!-- 金刚区 -->
-		<view class="flex2 line-h py-4 p-r">
+		<view class="flex2 line-h py-4 p-r" v-if="checkData.listorder&&checkData.listorder!=10">
 			<view class="font-26 flex4" @click="Router.navigateTo({route:{path:'/pages/aboutUS/aboutUS'}})">
 				<image src="../../static/images/home-icon2.png" class="icon"></image>
 				<view>关于我们</view>
@@ -37,7 +37,7 @@
 		</view>
 		
 		<!-- 信息展示 -->
-		<view class="px-3 flex1 flex-wrap p-r">
+		<view class="px-3 flex1 flex-wrap p-r" v-if="checkData.listorder&&checkData.listorder!=10">
 			<view class="line-h" v-for="(item,index) in mainData" :key="index"
 			@click="toDetail(index)">
 				<view class="p-r radius30 overflow-h shadowM infoImg">
@@ -53,8 +53,25 @@
 			</view>
 		</view>
 		
+		<view class="px-3">
+			<view class="mb-3 bg-white radius10 p-3 flex1 p-r"
+				v-for="(item,index) in artData" :key="index"
+				:data-id = "item.id"
+				@click="Router.navigateTo({route:{path:'/pages/active-detail/active-detail?id='+$event.currentTarget.dataset.id}})"
+			>
+				<image :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" class="activeImg"></image>
+				<view class="activeTxt flex5">
+					<view class="font-32 color2 mb-5 avoidOverflow2">{{item.title?item.title:''}}</view>
+					<view class="line-h t-indent20">
+						<view class="mt-2 p-r actTime">{{item.small_title?item.small_title:''}}</view>
+						<view class="mt-3 p-r actDZ">{{item.description?item.description:''}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		
 		<!-- 条件筛选 -->
-		<view class="bg-mask z10 line-h" v-show="is_show">
+		<view class="bg-mask z10 line-h"   v-if="checkData.listorder&&checkData.listorder!=10&&is_show">
 			
 			<view class="p-aX bottom-0 radius20-T bg-white font-30 pt-3 flex5 choose">
 				<view style="position: absolute;top: 30rpx;right: 20rpx;color: #FF515B;font-weight: 700;z-index: 100;"  @click="closeSearch">取消</view>
@@ -104,7 +121,7 @@
 			</view>
 		</view>
 		
-		<view class="bg-mask z1000 line-h" v-show="is_show1">
+		<view class="bg-mask z1000 line-h" v-show="is_show1&&checkData.listorder&&checkData.listorder!=10">
 			<view class="p-aX bottom-0 radius20-T bg-white font-30 pt-3 flex5">
 				<view class="text-center" style="font-weight: 700;font-size:18px">提示</view>
 				<view class="text-center" style="padding:50rpx 0;">请同意授权使用小程序</view>
@@ -115,7 +132,7 @@
 		</view>
 		
 		
-		<view class="bg-mask z1000 line-h" v-show="is_show2">
+		<view class="bg-mask z1000 line-h" v-show="is_show2&&checkData.listorder&&checkData.listorder!=10">
 			<view class="p-aX bottom-0 radius20-T bg-white font-30 pt-3 flex5">
 				<view class="text-center" style="font-weight: 700;font-size:18px">提示</view>
 				<view class="text-center" style="padding:50rpx 0;">确认登录使用小程序</view>
@@ -126,7 +143,7 @@
 		</view>
 		<view style="height: 130rpx;"></view>
 		<!-- footer -->
-		<view class="footer">
+		<view class="footer" v-if="checkData.listorder&&checkData.listorder!=10">
 			<view class="item on" @click="Router.redirectTo({route:{path:'/pages/index/index'}})">
 				<image src="../../static/images/nabar1-a.png" mode=""></image>
 				<view>首页</view>
@@ -159,7 +176,7 @@
 				is_show: false,
 				statusBar: app.globalData.statusBar,
 				mainData:[],
-				is_show1:true,
+				is_show1:false,
 				sliderData:[],
 				searchItem:{
 					is_show:1,
@@ -168,14 +185,16 @@
 				ageIndex:0,
 				ageData:[{title:'不限',value:[1,1]},{title:'18-25',value:[18,25]},{title:'25-32',value:[25,32]},{title:'32-39',value:[32,39]}
 				,{title:'39-45',value:[39,45]}],
-				is_show2:false
+				is_show2:false,
+				checkData:{},
+				artData:[]
 			}
 		},
 		
 		onLoad() {
 			const self = this;
 			self.paginate = self.$Utils.cloneForm(self.$AssetsConfig.paginate);
-			self.$Utils.loadAll(['getMainData','getSliderData'], self);
+			self.$Utils.loadAll(['getMainData','getSliderData','getCheckData'], self);
 		},
 		
 		onReachBottom() {
@@ -193,6 +212,53 @@
 		},
 		
 		methods: {
+			
+			getArtData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					thirdapp_id: 2,
+				}
+				postData.getBefore = {
+					article: {
+						tableName: 'Label',
+						middleKey: 'menu_id',
+						key: 'id',
+						searchItem: {
+							title: ['in', ['活动']],
+						},
+						condition: 'in'
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.artData = res.info.data
+					};
+				};
+				self.$apis.articleGet(postData, callback);
+			},
+			
+			getCheckData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					thirdapp_id: 2,
+					title:'会员权益'
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.checkData = res.info.data[0];
+						if(self.checkData.listorder==10){
+							self.getArtData()
+						}
+					};
+					self.$Utils.finishFunc('getCheckData');
+				};
+				self.$apis.labelGet(postData, callback);
+			},
 			
 			ageChange(e){
 				const self = this;
@@ -493,5 +559,10 @@
 
 input{font-size: 30rpx;text-align: right;}
 scroll-view{width: auto;height: 80%;}
+.activeImg{width: 240rpx;height: 240rpx;border-radius: 10rpx;}
+.activeTxt{width: 350rpx;height: 240rpx;}
+.actTime::before,.actDZ::before{content: '';width: 10rpx;height: 10rpx;position: absolute;top: 50%;left: 0;margin-top: -5rpx;border-radius: 50%;}
+.actTime::before{background-color: #38BD70;}
+.actDZ::before{background-color: #FF515B;}
 </style>
 <style>page{height: 100%;}</style>

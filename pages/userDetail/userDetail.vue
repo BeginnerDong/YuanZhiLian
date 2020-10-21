@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view v-if="isShow">
 		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
 
 		<view class="head p-r colorf">
@@ -69,11 +69,11 @@
 					<view class="pt-4 w-50">地区：<text class="color2">{{mainData.zo_region?mainData.zo_region:'-'}}</text></view>
 					<view class="pt-4 w-50">职业：<text class="color2">{{mainData.zo_work?mainData.zo_work:'-'}}</text></view>
 					<view class="pt-4 w-50">婚姻：<text class="color2">{{mainData.zo_marriage?mainData.zo_marriage:'-'}}</text></view>
-					<view class="pt-4 w-50" v-if="mainData.car_house==1">房车：<text class="color2">有房有车</text></view>
-					<view class="pt-4 w-50" v-if="mainData.car_house==2">房车：<text class="color2">有房无车</text></view>
-					<view class="pt-4 w-50" v-if="mainData.car_house==3">房车：<text class="color2">有车无房</text></view>
-					<view class="pt-4 w-50" v-if="mainData.car_house==4">房车：<text class="color2">无车无房</text></view>
-					<view class="pt-4 w-50" v-if="!mainData.car_house">房车：<text class="color2">-</text></view>
+					<view class="pt-4 w-50" v-if="mainData.zo_car_house==1">房车：<text class="color2">有房有车</text></view>
+					<view class="pt-4 w-50" v-if="mainData.zo_car_house==2">房车：<text class="color2">有房无车</text></view>
+					<view class="pt-4 w-50" v-if="mainData.zo_car_house==3">房车：<text class="color2">有车无房</text></view>
+					<view class="pt-4 w-50" v-if="mainData.zo_car_house==4">房车：<text class="color2">无车无房</text></view>
+					<view class="pt-4 w-50" v-if="!mainData.zo_car_house">房车：<text class="color2">-</text></view>
 				</view>
 				<view class="line-h-md mb-2">
 					{{mainData.zo_other?mainData.zo_other:'-'}}
@@ -102,6 +102,9 @@
 		
 		
 	</view>
+	<view style="width: 100%;text-align: center;margin-top: 100rpx;" v-else>
+		功能关闭~请谅解
+	</view>
 </template>
 
 <script>
@@ -113,13 +116,17 @@
 				statusBar: app.globalData.statusBar,
 				mainData:{},
 				Utils:this.$Utils,
-				userData:{}
+				userData:{},
+				isShow:false
 			}
 		},
 		
 		onLoad(options) {
 			const self = this;
-			self.id = options.id;
+			if(options.id){
+				self.id = options.id;
+				self.isShow = true
+			};	
 			self.$Utils.loadAll(['getUserData'], self);
 		},
 		

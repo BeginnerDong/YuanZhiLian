@@ -1,5 +1,5 @@
 <template>
-	<view class="px-5 py-4 infor">
+	<view class="px-5 py-4 infor" v-if="showAll">
 		<!-- <image src="../../static/images/bg.jpg" class="p-fXY o6"></image> -->
 		<image src="../../static/images/bg.jpg" class="p-fXY o6"></image>
 		<view class="p-r">
@@ -307,7 +307,7 @@
 				weightIndex:-1,
 				educationData:['高中','专科','本科','研究生','硕士','博士','其他'],
 				educationIndex:-1,
-				marriageData:['未婚','离异未育','离异有孩（男孩）','离异有孩（女孩）','丧偶未育','丧偶有孩（男孩）','丧偶有孩（女孩）'],
+				marriageData:['未婚','离异未育','离异不带孩','离异有孩（男孩）','离异有孩（女孩）','丧偶未育','丧偶不带孩','丧偶有孩（男孩）','丧偶有孩（女孩）'],
 				marriageIndex:-1,
 				occupationData:['学生','销售','IT/互联网','通信/电子','生产/制造','物流/仓储','商贸/仓储','人事/行政',
 				'高级管理','广告/市场','传媒/艺术','生物/制药','医疗/护理','金融','建筑/房地产','咨询/顾问','法律',
@@ -343,9 +343,9 @@
 				zo_workIndex:0,
 				zo_car_houseData:[{title:'不限',value:0},{title:'有车有房',value:1},{title:'有房无车',value:2},{title:'有车无房',value:3},{title:'无车无房',value:4}],
 				zo_car_houseIndex:0,
-				zo_marriageData:['不限','未婚','离异未育','离异有孩（男孩）','离异有孩（女孩）','丧偶未育','丧偶有孩（男孩）','丧偶有孩（女孩）'],
+				zo_marriageData:['不限','未婚','离异未育','离异不带孩','离异有孩（男孩）','离异有孩（女孩）','丧偶未育','丧偶不带孩','丧偶有孩（男孩）','丧偶有孩（女孩）'],
 				zo_marriageIndex:0,
-				
+				showAll:false
 			}
 		},
 		
@@ -361,10 +361,11 @@
 			for(var i=40;i<100;i++){
 				self.weightData.push(i+'kg');
 			};
-			self.$Utils.loadAll(['getHobbyData','getCriteriaData'], self);
-			/* if(self.heightData.length>0&&self.weightData.length){
+			//self.$Utils.loadAll(['getHobbyData','getCriteriaData'], self);
+			if(self.heightData.length>0&&self.weightData.length){
 				self.$Utils.loadAll(['getMainData'], self);
-			} */
+			}
+			self.getCheckData()
 		},
 		
 		onShow() {
@@ -373,6 +374,26 @@
 		},
 		
 		methods: {
+			
+			getCheckData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					thirdapp_id: 2,
+					title:'会员权益'
+				};
+				postData.noLoading = true;
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.checkData = res.info.data[0];
+						if(self.checkData.listorder!=10){
+							self.showAll = true
+						}
+					};
+					self.$Utils.finishFunc('getCheckData');
+				};
+				self.$apis.labelGet(postData, callback);
+			},
 			
 			getUserData() {
 				const self = this;
